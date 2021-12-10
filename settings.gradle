@@ -10,3 +10,6 @@ dependencyResolutionManagement {
 rootProject.name = "ppjoke_kt"
 include ':app'
 include ':lib-common'
+include ':lib-network'
+include ':lib-nav-annotation'
+include ':lib-nav-compiler'
