@@ -6,13 +6,15 @@ import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.NavGraphNavigator
-import androidx.navigation.fragment.FragmentNavigator
 import com.github.crayonxiaoxin.lib_common.global.AppGlobals
 
 object NavGraphBuilder {
     fun build(controller: NavController, activity: FragmentActivity, containerId: Int) {
         val provider = controller.navigatorProvider
-        val fragmentNavigator = provider.getNavigator(FragmentNavigator::class.java)
+        val fragmentNavigator =
+            FixFragmentNavigator(activity, activity.supportFragmentManager, containerId)
+        provider.addNavigator(fragmentNavigator)
+//        val fragmentNavigator = provider.getNavigator(FragmentNavigator::class.java)
         val activityNavigator = provider.getNavigator(ActivityNavigator::class.java)
         provider.addNavigator(fragmentNavigator)
         provider.addNavigator(activityNavigator)
