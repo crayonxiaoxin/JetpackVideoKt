@@ -42,7 +42,7 @@ object UserManager {
 
     suspend fun isLoggedIn(): Boolean {
         val userId = get()?.userId ?: 0
-        return userId != 0
+        return userId != 0L
     }
 
     fun login(context: Context): StateFlow<User?> {
@@ -50,6 +50,12 @@ object UserManager {
             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         })
         return flow
+    }
+
+    fun userId(): String {
+        return runBlocking {
+            (get()?.userId ?: 0L).toString()
+        }
     }
 
     fun isLogin(): Boolean {
