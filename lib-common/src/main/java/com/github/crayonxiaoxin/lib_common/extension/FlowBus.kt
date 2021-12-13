@@ -9,16 +9,6 @@ import kotlinx.coroutines.flow.collect
 object FlowBus {
     private val flowEvents: HashMap<String, MutableSharedFlow<Any>> = HashMap()
 
-    private fun getEventFlow(eventName: String, isSticky: Boolean = false): MutableSharedFlow<Any> {
-        var event = flowEvents[eventName]
-        if (event == null) {
-            val replay = if (isSticky) 1 else 0
-            event = MutableSharedFlow(replay, 1)
-            flowEvents[eventName] = event
-        }
-        return event
-    }
-
     suspend fun post(eventName: String, value: Any, isSticky: Boolean = false) {
         val event = getEventFlow(eventName, isSticky)
         event.emit(value)
@@ -48,5 +38,15 @@ object FlowBus {
                 }
             }
         })
+    }
+
+    private fun getEventFlow(eventName: String, isSticky: Boolean = false): MutableSharedFlow<Any> {
+        var event = flowEvents[eventName]
+        if (event == null) {
+            val replay = if (isSticky) 1 else 0
+            event = MutableSharedFlow(replay, 1)
+            flowEvents[eventName] = event
+        }
+        return event
     }
 }

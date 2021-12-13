@@ -54,4 +54,8 @@ dependencies {
     api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     api "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+
+    def nav_version = "2.3.5"
+    api "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    api "androidx.navigation:navigation-ui-ktx:$nav_version"
 }

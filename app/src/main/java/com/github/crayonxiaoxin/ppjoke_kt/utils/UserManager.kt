@@ -1,15 +1,18 @@
 package com.github.crayonxiaoxin.ppjoke_kt.utils
 
 import android.content.Context
+import android.content.Intent
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.github.crayonxiaoxin.lib_common.global.AppGlobals
 import com.github.crayonxiaoxin.ppjoke_kt.model.User
+import com.github.crayonxiaoxin.ppjoke_kt.ui.login.LoginActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 
 object UserManager {
@@ -42,8 +45,23 @@ object UserManager {
         return userId != 0
     }
 
-    suspend fun logout() {
-        set(null)
+    fun login(context: Context): StateFlow<User?> {
+        context.startActivity(Intent(context, LoginActivity::class.java).also {
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+        return flow
+    }
+
+    fun isLogin(): Boolean {
+        return runBlocking {
+            isLoggedIn()
+        }
+    }
+
+    fun logout() {
+        runBlocking {
+            set(null)
+        }
     }
 
 
