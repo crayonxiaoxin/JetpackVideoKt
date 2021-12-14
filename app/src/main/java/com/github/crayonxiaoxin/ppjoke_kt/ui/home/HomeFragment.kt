@@ -7,6 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
+import androidx.paging.LoadType
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.crayonxiaoxin.lib_nav_annotation.FragmentDestination
@@ -49,6 +52,14 @@ class HomeFragment : Fragment() {
         }
         adapter.setOnItemClickListener {
             viewModel.update(it.copy(feeds_text = it.feeds_text + " haha"))
+        }
+        binding.refreshLayout.setOnRefreshListener { adapter.refresh() }
+        adapter.addLoadStateListener {
+            when (it.refresh) {
+                is LoadState.NotLoading, is LoadState.Error -> binding.refreshLayout.finishRefresh()
+                else -> {
+                }
+            }
         }
         return binding.root
     }
