@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("/feeds/queryHotFeedsList")
+    @GET("feeds/queryHotFeedsList")
     suspend fun queryHotFeedsList(
         @Query("feedId") feedId: Int,
         @Query("feedType") feedType: String,
@@ -18,16 +18,14 @@ interface ApiService {
     ): Base<List<Feed>>
 
     companion object {
-        var apiService: ApiService? = null
         operator fun invoke(): ApiService {
-            if (apiService == null) {
-                apiService = NetworkManager.create(
-                    "http://123.56.232.18:8080/serverdemo",
-                    NetworkManager.defaultOkHttpClient(BuildConfig.DEBUG)
-                )
-            }
-            return apiService!!
+            return NetworkManager.create(
+                "http://123.56.232.18:8080/serverdemo/",
+                NetworkManager.defaultOkHttpClient(BuildConfig.DEBUG)
+            )
         }
     }
 }
+
+val apiService: ApiService = ApiService()
 
