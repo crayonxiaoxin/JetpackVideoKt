@@ -6,31 +6,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.github.crayonxiaoxin.lib_common.global.toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.crayonxiaoxin.lib_nav_annotation.FragmentDestination
-import com.github.crayonxiaoxin.ppjoke_kt.R
-import com.github.crayonxiaoxin.ppjoke_kt.model.prepare
-import com.github.crayonxiaoxin.ppjoke_kt.utils.ApiService
-import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
+import com.github.crayonxiaoxin.ppjoke_kt.databinding.FragmentHomeBinding
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @FragmentDestination("main/tabs/home", asStarter = true)
 class HomeFragment : Fragment() {
+    private var adapter: FeedAdapter = FeedAdapter()
+    private val viewModel: HomeViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-
+    ): View {
+        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.recyclerView.adapter = adapter
         lifecycleScope.launch {
-            val res = prepare { apiService.queryHotFeedsList(0, "") }
-            toast("res = ${res.isSuccess}")
-            res.getOrNull()?.forEach {
-                Log.e("TAG", "onCreateView: $it")
+            viewModel.getFeedList("all")?.collect {
+                adapter.submitData(lifecycle, it)
             }
         }
-        return view
+        return binding.root
     }
 }
