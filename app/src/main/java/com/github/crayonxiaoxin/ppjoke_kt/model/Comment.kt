@@ -1,7 +1,11 @@
 package com.github.crayonxiaoxin.ppjoke_kt.model
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import java.io.Serializable
+
 data class Comment(
-    var author: User?,
+    @Bindable var author: User?,
     var commentCount: Int?,
     var commentId: Long?,
     var commentText: String?,
@@ -13,8 +17,8 @@ data class Comment(
     var imageUrl: String?,
     var itemId: Int?,
     var likeCount: Int?,
-    var ugc: Ugc?,
+    @Bindable var ugc: Ugc?,
     var userId: Int?,
     var videoUrl: String?,
     var width: Int?
-)
+) : BaseObservable(), Serializable

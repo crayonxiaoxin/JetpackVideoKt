@@ -58,6 +58,11 @@ object UserManager {
         }
     }
 
+    fun isLogin(user: User?): Boolean {
+        if (user == null) return false
+        return isLogin()
+    }
+
     fun isLogin(): Boolean {
         return runBlocking {
             isLoggedIn()

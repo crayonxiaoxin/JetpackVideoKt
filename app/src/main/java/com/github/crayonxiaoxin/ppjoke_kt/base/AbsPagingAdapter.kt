@@ -1,4 +1,4 @@
-package com.github.crayonxiaoxin.ppjoke_kt.utils
+package com.github.crayonxiaoxin.ppjoke_kt.base
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.Lifecycle

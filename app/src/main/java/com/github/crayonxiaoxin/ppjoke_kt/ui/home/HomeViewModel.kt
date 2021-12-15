@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
-import com.github.crayonxiaoxin.ppjoke_kt.utils.AbsViewModel
+import com.github.crayonxiaoxin.ppjoke_kt.base.AbsViewModel
 import kotlinx.coroutines.flow.Flow
 
 class HomeViewModel : AbsViewModel<Feed>() {

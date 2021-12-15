@@ -5,7 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.crayonxiaoxin.lib_nav_annotation.FragmentDestination
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
-import com.github.crayonxiaoxin.ppjoke_kt.utils.AbsListFragment
+import com.github.crayonxiaoxin.ppjoke_kt.base.AbsListFragment
 import kotlinx.coroutines.launch
 
 @FragmentDestination("main/tabs/home", asStarter = true)

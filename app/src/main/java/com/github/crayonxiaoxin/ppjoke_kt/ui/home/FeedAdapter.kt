@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
-import com.github.crayonxiaoxin.ppjoke_kt.utils.AbsPagingAdapter
+import com.github.crayonxiaoxin.ppjoke_kt.base.AbsPagingAdapter
 
 class FeedAdapter : AbsPagingAdapter<Feed, FeedAdapter.ViewHolder>(diff) {
 

@@ -1,4 +1,4 @@
-package com.github.crayonxiaoxin.ppjoke_kt.utils
+package com.github.crayonxiaoxin.ppjoke_kt.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

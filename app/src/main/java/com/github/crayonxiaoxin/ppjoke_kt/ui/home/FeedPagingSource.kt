@@ -2,8 +2,8 @@ package com.github.crayonxiaoxin.ppjoke_kt.ui.home
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.github.crayonxiaoxin.ppjoke_kt.base.prepare
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
-import com.github.crayonxiaoxin.ppjoke_kt.model.prepare
 import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
 
 class FeedPagingSource(private val feedType: String?) : PagingSource<Int, Feed>() {

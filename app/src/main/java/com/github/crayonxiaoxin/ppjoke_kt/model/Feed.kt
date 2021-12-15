@@ -1,9 +1,13 @@
 package com.github.crayonxiaoxin.ppjoke_kt.model
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import java.io.Serializable
+
 data class Feed(
     var activityIcon: String?,
     var activityText: String?,
-    var author: User?,
+    @Bindable var author: User?,
     var authorId: Int?,
     var cover: String?,
     var createTime: Long?,
@@ -13,8 +17,8 @@ data class Feed(
     var id: Int?,
     var itemId: Long?,
     var itemType: Int?,
-    var topComment: Any?,
-    var ugc: Ugc?,
+    @Bindable var topComment: Comment?,
+    @Bindable var ugc: Ugc?,
     var url: String?,
     var width: Int?
-)
+) : BaseObservable(), Serializable

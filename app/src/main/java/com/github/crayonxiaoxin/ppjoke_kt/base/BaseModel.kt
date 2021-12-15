@@ -1,4 +1,4 @@
-package com.github.crayonxiaoxin.ppjoke_kt.model
+package com.github.crayonxiaoxin.ppjoke_kt.base
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

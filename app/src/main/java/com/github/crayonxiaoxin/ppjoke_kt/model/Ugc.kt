@@ -1,5 +1,8 @@
 package com.github.crayonxiaoxin.ppjoke_kt.model
 
+import androidx.databinding.BaseObservable
+import java.io.Serializable
+
 data class Ugc(
     var commentCount: Int?,
     var hasDissed: Boolean?,
@@ -8,4 +11,4 @@ data class Ugc(
     var hasdiss: Boolean?,
     var likeCount: Int?,
     var shareCount: Int?
-)
+) : BaseObservable(), Serializable
