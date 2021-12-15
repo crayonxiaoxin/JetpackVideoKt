@@ -4,22 +4,11 @@ import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 
-class FeedAdapter : PagingDataAdapter<Feed, FeedAdapter.ViewHolder>(object :
-    DiffUtil.ItemCallback<Feed>() {
-    override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean {
-        return oldItem.itemId == newItem.itemId
-    }
-
-    override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
-        return oldItem == newItem
-    }
-
-}) {
+class FeedAdapter : AbsPagingAdapter<Feed, FeedAdapter.ViewHolder>(diff) {
 
     private var mListener: ((Feed) -> Unit)? = null
 
@@ -51,5 +40,21 @@ class FeedAdapter : PagingDataAdapter<Feed, FeedAdapter.ViewHolder>(object :
 
     }
 
+    override fun updateBy(old: Feed, new: Feed): Boolean {
+        return old.itemId == new.itemId
+    }
+
+    companion object {
+        val diff = object :
+            DiffUtil.ItemCallback<Feed>() {
+            override fun areItemsTheSame(oldItem: Feed, newItem: Feed): Boolean {
+                return oldItem.itemId == newItem.itemId
+            }
+
+            override fun areContentsTheSame(oldItem: Feed, newItem: Feed): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 
 }
