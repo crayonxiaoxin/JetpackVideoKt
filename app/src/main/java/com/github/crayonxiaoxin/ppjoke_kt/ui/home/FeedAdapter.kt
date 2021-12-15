@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
+import com.github.crayonxiaoxin.ppjoke_kt.utils.AbsPagingAdapter
 
 class FeedAdapter : AbsPagingAdapter<Feed, FeedAdapter.ViewHolder>(diff) {
 
@@ -38,10 +39,6 @@ class FeedAdapter : AbsPagingAdapter<Feed, FeedAdapter.ViewHolder>(diff) {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    }
-
-    override fun updateBy(old: Feed, new: Feed): Boolean {
-        return old.itemId == new.itemId
     }
 
     companion object {

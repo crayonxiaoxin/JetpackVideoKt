@@ -1,6 +1,5 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui.home
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
@@ -9,7 +8,7 @@ import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
 
 class FeedPagingSource(private val feedType: String?) : PagingSource<Int, Feed>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Feed>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Feed>): Int {
 //        val id = state.anchorPosition?.let {
 //            state.closestPageToPosition(it)?.data?.last()?.id
 //        }
