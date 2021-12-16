@@ -22,8 +22,10 @@ abstract class AbsListFragment<T : Any, VM : AbsViewModel<T>, Adapter : AbsPagin
     protected lateinit var recyclerView: RecyclerView
     protected lateinit var emptyView: EmptyView
 
-    abstract val adapter: Adapter
+    protected lateinit var adapter: Adapter
     abstract val viewModel: VM
+
+    abstract fun initAdapter():Adapter
 
 //    // 通过反射实例化 viewModel
 //    private fun initViewModel() {
@@ -44,6 +46,8 @@ abstract class AbsListFragment<T : Any, VM : AbsViewModel<T>, Adapter : AbsPagin
         recyclerView = binding.recyclerView
         refreshLayout = binding.refreshLayout
         emptyView = binding.emptyView
+
+        adapter = initAdapter()
 
         recyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)

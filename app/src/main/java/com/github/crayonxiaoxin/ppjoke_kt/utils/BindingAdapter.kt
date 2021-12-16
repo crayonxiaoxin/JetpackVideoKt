@@ -15,7 +15,7 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 @SuppressLint("CheckResult")
 @BindingAdapter("image_url", "is_circle", "radius", requireAll = false)
-fun setImageUrl(view: ImageView, url: String, isCircle: Boolean = false, radius: Int = 0) {
+fun setImageUrl(view: ImageView, url: String?, isCircle: Boolean = false, radius: Int = 0) {
     val builder = Glide.with(view).load(url)
     if (isCircle) {
         builder.transform(CircleCrop())
@@ -30,7 +30,7 @@ fun setImageUrl(view: ImageView, url: String, isCircle: Boolean = false, radius:
 }
 
 @BindingAdapter("blur_url", "radius", requireAll = false)
-fun setBlurImageUrl(view: ImageView, url: String, radius: Int = 0) {
+fun setBlurImageUrl(view: ImageView, url: String?, radius: Int = 0) {
     Glide.with(view).load(url).override(50).transform(BlurTransformation(radius)).dontAnimate()
         .into(object : CustomTarget<Drawable>() {
 

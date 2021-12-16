@@ -24,6 +24,9 @@ object InteractionPresenter {
             if (res.isSuccess) {
                 val hasLiked = res.getOrNull()?.hasLiked ?: false
                 feed.ugc?.hasLiked = hasLiked
+                if (hasLiked) {
+                    feed.ugc?.hasdiss = false
+                }
                 feed.ugc?.notifyChange()
                 FlowBus.post(DATA_FROM_INTERACTION, feed)
             }
@@ -37,6 +40,9 @@ object InteractionPresenter {
             if (res.isSuccess) {
                 val hasLiked = res.getOrNull()?.hasLiked ?: false
                 feed.ugc?.hasdiss = hasLiked
+                if (hasLiked) {
+                    feed.ugc?.hasLiked = false
+                }
                 feed.ugc?.notifyChange()
                 FlowBus.post(DATA_FROM_INTERACTION, feed)
             }

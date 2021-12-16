@@ -3,6 +3,9 @@ package com.github.crayonxiaoxin.lib_common.global
 import android.annotation.SuppressLint
 import android.app.Application
 import android.widget.Toast
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 object AppGlobals {
     private var sApplication: Application? = null
@@ -26,6 +29,8 @@ object AppGlobals {
 
 fun toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     AppGlobals.application()?.let {
-        Toast.makeText(it, message, duration).show()
+        CoroutineScope(Dispatchers.Main).launch {
+            Toast.makeText(it, message, duration).show()
+        }
     }
 }

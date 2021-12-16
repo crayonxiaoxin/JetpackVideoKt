@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/layout/layout_feed_type_video.xml" value="0.1911231884057971" />
         <entry key="app/src/main/res/layout/layout_list.xml" value="0.17239583333333333" />
         <entry key="lib-common/src/main/res/layout/layout_empty_view.xml" value="0.1734375" />
+        <entry key="lib-common/src/main/res/layout/layout_loading_view.xml" value="0.14" />
       </map>
     </option>
   </component>

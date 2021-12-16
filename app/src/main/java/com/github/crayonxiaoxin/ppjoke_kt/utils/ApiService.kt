@@ -5,10 +5,19 @@ import com.github.crayonxiaoxin.ppjoke_kt.BuildConfig
 import com.github.crayonxiaoxin.ppjoke_kt.base.Base
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 import com.github.crayonxiaoxin.ppjoke_kt.model.HasLiked
+import com.github.crayonxiaoxin.ppjoke_kt.model.User
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
+
+    @GET("user/insert")
+    suspend fun insertUser(
+        @Query("avatar") avatar: String,
+        @Query("expires_time") expires_time: String,
+        @Query("name") name: String,
+        @Query("qqOpenId") qqOpenId: String,
+    ):Base<User>
 
     @GET("feeds/queryHotFeedsList")
     suspend fun queryHotFeedsList(

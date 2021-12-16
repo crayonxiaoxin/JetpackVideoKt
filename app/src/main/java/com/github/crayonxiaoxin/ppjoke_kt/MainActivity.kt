@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.github.crayonxiaoxin.lib_common.dialog.LoadingDialog
 import com.github.crayonxiaoxin.lib_common.global.toast
 import com.github.crayonxiaoxin.lib_common.utils.StatusBar
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.ActivityMainBinding
@@ -28,7 +29,9 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBar.fitSystemBar(this, darkIcons = true)
         super.onCreate(savedInstanceState)
-        UserManager.logout()
+
+//        UserManager.logout()
+
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

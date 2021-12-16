@@ -13,6 +13,7 @@ data class Feed(
     var createTime: Long?,
     var duration: Double?,
     var feeds_text: String?,
+    var width: Int?,
     var height: Int?,
     var id: Int?,
     var itemId: Long?,
@@ -20,5 +21,9 @@ data class Feed(
     @Bindable var topComment: Comment?,
     @Bindable var ugc: Ugc?,
     var url: String?,
-    var width: Int?
-) : BaseObservable(), Serializable
+) : BaseObservable(), Serializable{
+     companion object{
+         const val TYPE_IMAGE = 1
+         const val TYPE_VIDEO = 2
+     }
+}

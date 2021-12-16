@@ -13,7 +13,6 @@ class HomeFragment() : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
     private val KEY_FEED_TYPE = "key_fed_type"
 
     override val viewModel: HomeViewModel by viewModels()
-    override val adapter: FeedAdapter = FeedAdapter()
 
     fun newInstance(feedType: String): HomeFragment {
         val args = Bundle()
@@ -23,12 +22,17 @@ class HomeFragment() : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
         return fragment
     }
 
-    override fun afterCreateView() {
+    override fun initAdapter(): FeedAdapter {
         viewModel.feedType = arguments?.getString(KEY_FEED_TYPE) ?: "all"
+        return FeedAdapter(requireContext(), viewModel.feedType)
+    }
+
+    override fun afterCreateView() {
         adapter.setOnItemClickListener {
             lifecycleScope.launch {
                 adapter.update(it.copy(feeds_text = it.feeds_text + " haha"))
             }
         }
     }
+
 }

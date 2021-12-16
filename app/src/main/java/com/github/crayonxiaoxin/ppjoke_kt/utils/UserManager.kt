@@ -2,6 +2,7 @@ package com.github.crayonxiaoxin.ppjoke_kt.utils
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
