@@ -32,11 +32,11 @@
             app:feedText="@{feed.feeds_text}" />
 
         <!--   视频区域     -->
-<!--        <com.github.crayonxiaoxin.ppjoke.ui.view.ListPlayerView-->
-<!--            android:id="@+id/list_player_view"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="@dimen/dp_10" />-->
+        <com.github.crayonxiaoxin.ppjoke_kt.ui.view.ListPlayerView
+            android:id="@+id/list_player_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10" />
 
         <include
             layout="@layout/layout_feed_tag"

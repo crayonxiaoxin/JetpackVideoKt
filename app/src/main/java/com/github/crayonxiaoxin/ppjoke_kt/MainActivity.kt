@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         StatusBar.fitSystemBar(this, darkIcons = true)
         super.onCreate(savedInstanceState)
 
-//        UserManager.logout()
+        UserManager.logout()
 
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navHostFragment =
@@ -51,11 +51,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
             val value = next.value
             if (!UserManager.isLogin() && value.needLogin && value.id == item.itemId) {
                 lifecycleScope.launch {
-                    UserManager.login(this@MainActivity).collect {
-                        it?.let {
-                            toast("user ${it.userId}")
-                        }
-                    }
+                    UserManager.login(this@MainActivity)
                 }
                 return false
             }

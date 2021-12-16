@@ -13,8 +13,9 @@ import com.github.crayonxiaoxin.ppjoke_kt.base.AbsPagingAdapter
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.LayoutFeedTypeImageBinding
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.LayoutFeedTypeVideoBinding
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
+import com.github.crayonxiaoxin.ppjoke_kt.ui.view.ListPlayerView
 
-class FeedAdapter(val context: Context, val mCategory: String = "") :
+open class FeedAdapter(val context: Context, val mCategory: String = "") :
     AbsPagingAdapter<Feed, FeedAdapter.ViewHolder>(diff) {
 
     private var mListener: ((Feed) -> Unit)? = null
@@ -47,13 +48,23 @@ class FeedAdapter(val context: Context, val mCategory: String = "") :
     }
 
     inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+        var listPlayerView: ListPlayerView? = null
+        val isVideoItem: Boolean get() = binding is LayoutFeedTypeVideoBinding
+
         fun bindData(feed: Feed) {
             binding.setVariable(BR.feed, feed)
             binding.setVariable(BR.lifeCycleOwner, context)
             if (binding is LayoutFeedTypeImageBinding) {
                 binding.feedImage.bindData(feed.width ?: 0, feed.height ?: 0, 16, feed.cover ?: "")
             } else if (binding is LayoutFeedTypeVideoBinding) {
-
+                binding.listPlayerView.bindData(
+                    mCategory,
+                    feed.width ?: 0,
+                    feed.height ?: 0,
+                    feed.cover ?: "",
+                    feed.url ?: ""
+                )
+                listPlayerView = binding.listPlayerView
             }
         }
     }

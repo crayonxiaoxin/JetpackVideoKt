@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import com.github.crayonxiaoxin.lib_common.utils.dp
 import com.github.crayonxiaoxin.ppjoke_kt.R
 import com.github.crayonxiaoxin.ppjoke_kt.model.BottomBar
@@ -22,7 +21,6 @@ class AppBottomBar : BottomNavigationView {
         R.drawable.icon_tab_find,
         R.drawable.icon_tab_mine
     )
-    private var config: BottomBar = AppConfig.getBottomBarConfig()
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -40,13 +38,15 @@ class AppBottomBar : BottomNavigationView {
         defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes) {
 
+        val config: BottomBar = AppConfig.getBottomBarConfig()
+
         val state = arrayOf(intArrayOf(android.R.attr.state_selected), intArrayOf())
         val colors =
             intArrayOf(Color.parseColor(config.activeColor), Color.parseColor(config.inActiveColor))
         val colorStateList = ColorStateList(state, colors)
 
-        itemTextColor = colorStateList
         itemIconTintList = colorStateList
+        itemTextColor = colorStateList
         labelVisibilityMode = LABEL_VISIBILITY_LABELED
         selectedItemId = config.selectTab
 
@@ -72,7 +72,7 @@ class AppBottomBar : BottomNavigationView {
                         Color.parseColor(tab.tintColor)
                     }
                     itemView.setIconTintList(ColorStateList.valueOf(tintColor))
-                    itemView.setShifting(false)
+                    itemView.setShifting(true)
                 }
             }
         }

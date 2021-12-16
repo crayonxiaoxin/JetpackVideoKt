@@ -67,20 +67,18 @@ object InteractionPresenter {
     }
 
     @JvmStatic
-    fun doAfterLogin(func: suspend () -> Unit) {
+    fun doAfterLogin(func: suspend CoroutineScope.() -> Unit) {
         CoroutineScope(Dispatchers.Main).launch {
             if (!UserManager.isLogin()) {
-                val login = UserManager.login(AppGlobals.application)
-                CoroutineScope(Dispatchers.Main).launch {
-                    login.collectLatest {
-                        if (UserManager.isLogin(it)) {
-                            func()
-                            this.cancel()
-                        }
+                UserManager.login(AppGlobals.application).collectLatest {
+                    if (UserManager.isLogin(it)) {
+                        func()
+                        this.cancel()
                     }
                 }
             } else {
                 func()
+                this.cancel()
             }
         }
     }

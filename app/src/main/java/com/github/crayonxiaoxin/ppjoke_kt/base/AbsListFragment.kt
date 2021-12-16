@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.crayonxiaoxin.lib_common.view.EmptyView
+import com.github.crayonxiaoxin.ppjoke_kt.R
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.LayoutListBinding
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import kotlinx.coroutines.flow.collect
@@ -25,7 +28,7 @@ abstract class AbsListFragment<T : Any, VM : AbsViewModel<T>, Adapter : AbsPagin
     protected lateinit var adapter: Adapter
     abstract val viewModel: VM
 
-    abstract fun initAdapter():Adapter
+    abstract fun initAdapter(): Adapter
 
 //    // 通过反射实例化 viewModel
 //    private fun initViewModel() {
@@ -52,6 +55,14 @@ abstract class AbsListFragment<T : Any, VM : AbsViewModel<T>, Adapter : AbsPagin
         recyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
+
+        // 分割线
+        ContextCompat.getDrawable(requireContext(), R.drawable.list_divider)?.let {
+            val dividerItemDecoration =
+                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            dividerItemDecoration.setDrawable(it)
+            recyclerView.addItemDecoration(dividerItemDecoration)
+        }
 
         refreshLayout.setOnRefreshListener { adapter.refresh() }
         adapter.addLoadStateListener {
