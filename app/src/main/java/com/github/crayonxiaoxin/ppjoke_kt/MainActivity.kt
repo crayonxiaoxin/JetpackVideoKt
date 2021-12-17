@@ -9,15 +9,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.github.crayonxiaoxin.lib_common.dialog.LoadingDialog
-import com.github.crayonxiaoxin.lib_common.global.toast
 import com.github.crayonxiaoxin.lib_common.utils.StatusBar
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.ActivityMainBinding
 import com.github.crayonxiaoxin.ppjoke_kt.utils.AppConfig
 import com.github.crayonxiaoxin.ppjoke_kt.utils.NavGraphBuilder
 import com.github.crayonxiaoxin.ppjoke_kt.utils.UserManager
 import com.google.android.material.navigation.NavigationBarView
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListener {
@@ -30,7 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         StatusBar.fitSystemBar(this, darkIcons = true)
         super.onCreate(savedInstanceState)
 
-        UserManager.logout()
+//        UserManager.logout()
 
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val navHostFragment =

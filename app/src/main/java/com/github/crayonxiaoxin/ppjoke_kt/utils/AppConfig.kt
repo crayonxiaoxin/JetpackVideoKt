@@ -3,6 +3,7 @@ package com.github.crayonxiaoxin.ppjoke_kt.utils
 import com.github.crayonxiaoxin.lib_common.global.AppGlobals
 import com.github.crayonxiaoxin.ppjoke_kt.model.BottomBar
 import com.github.crayonxiaoxin.ppjoke_kt.model.Destination
+import com.github.crayonxiaoxin.ppjoke_kt.model.SofaTab
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader
@@ -12,6 +13,8 @@ import java.io.InputStreamReader
 object AppConfig {
     private var sDestConfig: HashMap<String, Destination>? = null
     private var sBottomBar: BottomBar? = null
+    private var sSofaTab: SofaTab? = null
+
 
     fun getDestConfig(): HashMap<String, Destination> {
         val parseFile = parseFile("destination.json")
@@ -27,12 +30,23 @@ object AppConfig {
     fun getBottomBarConfig(): BottomBar {
         val parseFile = parseFile("main_tabs_config.json")
         if (sBottomBar == null) {
-            sBottomBar = Gson().fromJson<BottomBar>(
+            sBottomBar = Gson().fromJson(
                 parseFile,
                 BottomBar::class.java
             )
         }
         return sBottomBar!!
+    }
+
+    fun getSofaTabConfig(): SofaTab {
+        val parseFile = parseFile("sofa_tabs_config.json")
+        if (sSofaTab == null) {
+            sSofaTab = Gson().fromJson(
+                parseFile,
+                SofaTab::class.java
+            )
+        }
+        return sSofaTab!!
     }
 
     private fun parseFile(filename: String): String {

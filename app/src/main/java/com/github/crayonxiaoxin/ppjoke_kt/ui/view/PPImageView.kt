@@ -32,7 +32,7 @@ class PPImageView : AppCompatImageView {
         marginLeft: Int,
         imageUrl: String,
         maxWidthPx: Int = PixUtils.getScreenWidth(),
-        maxHeightPx: Int = PixUtils.getScreenHeight(),
+        maxHeightPx: Int = PixUtils.getScreenWidth(),
     ) {
         if (widthPx <= 0 || heightPx <= 0) {
             Glide.with(this).load(imageUrl).into(object : CustomTarget<Drawable>() {

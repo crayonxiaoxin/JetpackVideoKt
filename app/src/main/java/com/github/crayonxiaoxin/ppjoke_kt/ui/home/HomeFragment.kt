@@ -12,17 +12,19 @@ import kotlinx.coroutines.launch
 @FragmentDestination("main/tabs/home", asStarter = true)
 class HomeFragment() : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
     private var playDetector: PageListPlayDetector? = null
-    private val KEY_FEED_TYPE = "key_fed_type"
     private var shouldPause: Boolean = true
 
     override val viewModel: HomeViewModel by viewModels()
 
-    fun newInstance(feedType: String): HomeFragment {
-        val args = Bundle()
-        args.putString(KEY_FEED_TYPE, feedType)
-        val fragment = HomeFragment()
-        fragment.arguments = args
-        return fragment
+    companion object {
+        private val KEY_FEED_TYPE = "key_fed_type"
+        fun newInstance(feedType: String): HomeFragment {
+            val args = Bundle()
+            args.putString(KEY_FEED_TYPE, feedType)
+            val fragment = HomeFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     override fun initAdapter(): FeedAdapter {
