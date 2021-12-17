@@ -82,6 +82,11 @@ interface ApiService {
         @Query("userId") userId: String = UserManager.userId(),
     ): Base<List<TagList>>
 
+    @GET("user/query")
+    suspend fun queryUser(
+        @Query("userId") userId: String = UserManager.userId()
+    ): Base<User>
+
     companion object {
         operator fun invoke(): ApiService {
             return NetworkManager.create(

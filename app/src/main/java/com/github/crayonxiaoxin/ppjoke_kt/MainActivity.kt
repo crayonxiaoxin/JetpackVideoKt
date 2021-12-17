@@ -56,4 +56,14 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
         navController.navigate(item.itemId)
         return item.title.isNotEmpty()
     }
+
+    override fun onBackPressed() {
+        val startId = navController.graph.startDestination
+        val currentId = navController.currentDestination?.id
+        if (currentId != startId) {
+            binding.navView.selectedItemId = startId
+        } else {
+            finish()
+        }
+    }
 }
