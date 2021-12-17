@@ -5,6 +5,7 @@ import com.github.crayonxiaoxin.ppjoke_kt.BuildConfig
 import com.github.crayonxiaoxin.ppjoke_kt.base.Base
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 import com.github.crayonxiaoxin.ppjoke_kt.model.HasLiked
+import com.github.crayonxiaoxin.ppjoke_kt.model.ShareCount
 import com.github.crayonxiaoxin.ppjoke_kt.model.User
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -42,7 +43,7 @@ interface ApiService {
     @GET("ugc/increaseShareCount")
     suspend fun increaseShareCount(
         @Query("itemId") itemId: Long
-    )
+    ):Base<ShareCount>
 
     @GET("ugc/toggleFavorite")
     suspend fun toggleFavorite(

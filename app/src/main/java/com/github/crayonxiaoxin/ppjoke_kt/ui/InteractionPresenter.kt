@@ -1,11 +1,15 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui
 
+import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.github.crayonxiaoxin.lib_common.extension.FlowBus
 import com.github.crayonxiaoxin.lib_common.global.AppGlobals
+import com.github.crayonxiaoxin.lib_common.global.toast
 import com.github.crayonxiaoxin.ppjoke_kt.base.prepare
 import com.github.crayonxiaoxin.ppjoke_kt.model.Comment
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
+import com.github.crayonxiaoxin.ppjoke_kt.ui.view.ShareDialog
 import com.github.crayonxiaoxin.ppjoke_kt.utils.UserManager
 import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
 import kotlinx.coroutines.CoroutineScope
@@ -13,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
 
 object InteractionPresenter {
     const val DATA_FROM_INTERACTION = "data_from_interaction"
@@ -51,7 +56,24 @@ object InteractionPresenter {
 
     @JvmStatic
     fun openShareDialog(owner: LifecycleOwner, feed: Feed) {
-
+        val url = "http://h5.aliyun.ppkoke.com/item/%s?timestamp=%s&user_id=%s";
+        val format = url.format(feed.itemId, Date().time, UserManager.userId())
+        ShareDialog(owner as Context).apply {
+            setShareContent(format)
+            setShareItemClickListener {
+                owner.lifecycleScope.launch {
+                    val res = prepare { apiService.increaseShareCount(feed.itemId ?: 0L) }
+                    if (res.isSuccess) {
+                        res.getOrNull()?.count?.let {
+                            feed.ugc?.shareCount = it
+                            feed.ugc?.notifyChange()
+                        }
+                    }
+                    hide()
+                    toast("分享成功")
+                }
+            }
+        }.show()
     }
 
     @JvmStatic

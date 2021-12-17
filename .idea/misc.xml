@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/layout/layout_feed_type_video.xml" value="0.1911231884057971" />
         <entry key="app/src/main/res/layout/layout_list.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_player_view.xml" value="0.1293918918918919" />
+        <entry key="app/src/main/res/layout/layout_share_item.xml" value="0.12567567567567567" />
         <entry key="app/src/main/res/layout/layout_simple_exo_player_controller_view.xml" value="0.1293918918918919" />
         <entry key="app/src/main/res/layout/layout_simple_exo_player_view.xml" value="0.1293918918918919" />
         <entry key="lib-common/src/main/res/layout/layout_empty_view.xml" value="0.1734375" />
