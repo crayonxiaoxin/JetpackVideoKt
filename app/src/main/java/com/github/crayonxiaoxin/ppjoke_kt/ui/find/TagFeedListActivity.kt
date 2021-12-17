@@ -47,7 +47,7 @@ class TagFeedListActivity : AppCompatActivity() {
     private var shouldPause: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBar.fitSystemBar(this, false)
+        StatusBar.fitSystemBar(this, false, true)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tag_feed_list)
         recyclerView = binding.refreshLayoutView.recyclerView
