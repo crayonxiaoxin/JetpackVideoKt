@@ -23,7 +23,7 @@ class TagListFragment : AbsListFragment<TagList, TagListViewModel, TagListAdapte
             }
         }
         adapter.setOnItemClickListener {
-            toast("开发中: ${it.title}")
+            TagFeedListActivity.startActivity(requireContext(), it)
         }
         adapter.setOnFollowClickListener {
             viewModel.toggleTagFollow(it)

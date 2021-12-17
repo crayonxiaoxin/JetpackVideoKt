@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import com.github.crayonxiaoxin.ppjoke_kt.base.AbsViewModel
 import com.github.crayonxiaoxin.ppjoke_kt.base.prepare
 import com.github.crayonxiaoxin.ppjoke_kt.model.TagList
+import com.github.crayonxiaoxin.ppjoke_kt.ui.InteractionPresenter
 import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,15 +24,7 @@ class TagListViewModel : AbsViewModel<TagList>() {
     }
 
     fun toggleTagFollow(tagList: TagList) {
-        viewModelScope.launch {
-            val res = prepare { apiService.toggleTagFollow(tagList.tagId) }
-            if (res.isSuccess) {
-                res.getOrNull()?.hasFollow?.let {
-                    tagList.hasFollow = it
-                    tagList.notifyChange()
-                }
-            }
-        }
+        InteractionPresenter.toggleTagLiked(null,tagList)
     }
 
     private val switchTab: MutableStateFlow<Int> = MutableStateFlow(-1)

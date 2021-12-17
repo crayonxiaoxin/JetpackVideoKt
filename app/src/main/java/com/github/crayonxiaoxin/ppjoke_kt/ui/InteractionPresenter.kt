@@ -9,6 +9,7 @@ import com.github.crayonxiaoxin.lib_common.global.toast
 import com.github.crayonxiaoxin.ppjoke_kt.base.prepare
 import com.github.crayonxiaoxin.ppjoke_kt.model.Comment
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
+import com.github.crayonxiaoxin.ppjoke_kt.model.TagList
 import com.github.crayonxiaoxin.ppjoke_kt.ui.view.ShareDialog
 import com.github.crayonxiaoxin.ppjoke_kt.utils.UserManager
 import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
@@ -90,6 +91,19 @@ object InteractionPresenter {
                 val hasLiked = res.getOrNull()?.hasLiked ?: false
                 comment.ugc?.hasdiss = hasLiked
                 comment.ugc?.notifyChange()
+            }
+        }
+    }
+
+    @JvmStatic
+    fun toggleTagLiked(owner: LifecycleOwner?, tagList: TagList) {
+        doAfterLogin {
+            val res = prepare { apiService.toggleTagFollow(tagList.tagId) }
+            if (res.isSuccess) {
+                res.getOrNull()?.hasFollow?.let {
+                    tagList.hasFollow = it
+                    tagList.notifyChange()
+                }
             }
         }
     }

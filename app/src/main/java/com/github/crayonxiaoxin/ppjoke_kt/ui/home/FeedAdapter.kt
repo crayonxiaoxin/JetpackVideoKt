@@ -38,7 +38,10 @@ open class FeedAdapter(val context: Context, val mCategory: String = "") :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position) ?: return
         holder.bindData(item)
-        holder.itemView.setOnClickListener { itemClickListener?.invoke(item) }
+        holder.itemView.setOnClickListener {
+            // to detail
+            itemClickListener?.invoke(item)
+        }
     }
 
     inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {

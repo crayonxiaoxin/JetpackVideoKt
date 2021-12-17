@@ -17,7 +17,7 @@ class HomeFragment() : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
     override val viewModel: HomeViewModel by viewModels()
 
     companion object {
-        private val KEY_FEED_TYPE = "key_fed_type"
+        val KEY_FEED_TYPE = "key_fed_type"
         fun newInstance(feedType: String): HomeFragment {
             val args = Bundle()
             args.putString(KEY_FEED_TYPE, feedType)
