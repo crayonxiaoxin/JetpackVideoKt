@@ -18,8 +18,6 @@ import com.github.crayonxiaoxin.ppjoke_kt.ui.view.ListPlayerView
 open class FeedAdapter(val context: Context, val mCategory: String = "") :
     AbsPagingAdapter<Feed, FeedAdapter.ViewHolder>(diff) {
 
-    private var mListener: ((Feed) -> Unit)? = null
-
     override fun getItemViewType(position: Int): Int {
         getItem(position)?.let {
             if (it.itemType == Feed.TYPE_IMAGE) {
@@ -40,11 +38,7 @@ open class FeedAdapter(val context: Context, val mCategory: String = "") :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position) ?: return
         holder.bindData(item)
-        holder.itemView.setOnClickListener { mListener?.invoke(item) }
-    }
-
-    fun setOnItemClickListener(listener: ((Feed) -> Unit)?) {
-        this.mListener = listener
+        holder.itemView.setOnClickListener { itemClickListener?.invoke(item) }
     }
 
     inner class ViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {

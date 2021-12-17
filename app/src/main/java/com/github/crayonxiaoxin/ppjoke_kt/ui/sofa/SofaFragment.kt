@@ -22,13 +22,13 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 @FragmentDestination("main/tabs/sofa")
-class SofaFragment : Fragment() {
-    private var tabLayoutMediator: TabLayoutMediator? = null
-    private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager: ViewPager2
-    private lateinit var sofaTabConfig: SofaTab
-    private var tabs: MutableList<SofaTab.Tab> = ArrayList()
-    private var fragmentMap: HashMap<Int, Fragment> = HashMap()
+open class SofaFragment : Fragment() {
+    protected var tabLayoutMediator: TabLayoutMediator? = null
+    protected lateinit var tabLayout: TabLayout
+    protected lateinit var viewPager: ViewPager2
+    protected lateinit var tabConfig: SofaTab
+    protected var tabs: MutableList<SofaTab.Tab> = ArrayList()
+    protected var fragmentMap: HashMap<Int, Fragment> = HashMap()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,10 +38,10 @@ class SofaFragment : Fragment() {
         val binding = FragmentSofaBinding.inflate(inflater, container, false)
         viewPager = binding.viewPager
         tabLayout = binding.tabLayout
-        sofaTabConfig = AppConfig.getSofaTabConfig()
+        tabConfig = getTabs()
 
         tabs = ArrayList()
-        val filter = sofaTabConfig.tabs.filter { it.enable }
+        val filter = tabConfig.tabs.filter { it.enable }
         tabs.addAll(filter)
 
         viewPager.offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
@@ -65,10 +65,14 @@ class SofaFragment : Fragment() {
         }.also { it.attach() }
         viewPager.registerOnPageChangeCallback(pageChangeCallback)
         viewPager.post {
-            viewPager.currentItem = sofaTabConfig.select
+            viewPager.setCurrentItem(tabConfig.select, false)
         }
 
         return binding.root
+    }
+
+    protected open fun getTabs(): SofaTab {
+        return AppConfig.getSofaTabConfig()
     }
 
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
@@ -78,10 +82,10 @@ class SofaFragment : Fragment() {
                 tabAt?.let {
                     val textView = it.customView as TextView
                     if (it.position == position) {
-                        textView.textSize = sofaTabConfig.activeSize.toFloat()
+                        textView.textSize = tabConfig.activeSize.toFloat()
                         textView.setTypeface(Typeface.DEFAULT_BOLD)
                     } else {
-                        textView.textSize = sofaTabConfig.normalSize.toFloat()
+                        textView.textSize = tabConfig.normalSize.toFloat()
                         textView.setTypeface(Typeface.DEFAULT)
                     }
                 }
@@ -96,23 +100,28 @@ class SofaFragment : Fragment() {
             intArrayOf()
         )
         val colors = intArrayOf(
-            Color.parseColor(sofaTabConfig.activeColor),
-            Color.parseColor(sofaTabConfig.normalColor)
+            Color.parseColor(tabConfig.activeColor),
+            Color.parseColor(tabConfig.normalColor)
         )
         textView.setTextColor(ColorStateList(state, colors))
         textView.text = tabs[position].title
-        textView.textSize = sofaTabConfig.normalSize.toFloat()
+        textView.textSize = tabConfig.normalSize.toFloat()
         return textView
     }
 
     private fun createTabFragment(position: Int): Fragment {
         var fragment = fragmentMap[position]
         if (fragment == null) {
-            fragment = HomeFragment.newInstance(tabs[position].tag)
+            fragment = generateFragment(position)
             fragmentMap[position] = fragment
         }
         return fragment
     }
+
+    protected open fun generateFragment(position: Int): Fragment {
+        return HomeFragment.newInstance(tabs[position].tag)
+    }
+
 
     override fun onDestroyView() {
         viewPager.unregisterOnPageChangeCallback(pageChangeCallback)

@@ -14,6 +14,7 @@ object AppConfig {
     private var sDestConfig: HashMap<String, Destination>? = null
     private var sBottomBar: BottomBar? = null
     private var sSofaTab: SofaTab? = null
+    private var sFindTab: SofaTab? = null
 
 
     fun getDestConfig(): HashMap<String, Destination> {
@@ -47,6 +48,17 @@ object AppConfig {
             )
         }
         return sSofaTab!!
+    }
+
+    fun getFindTabConfig(): SofaTab {
+        val parseFile = parseFile("find_tabs_config.json")
+        if (sFindTab == null) {
+            sFindTab = Gson().fromJson(
+                parseFile,
+                SofaTab::class.java
+            )
+        }
+        return sFindTab!!
     }
 
     private fun parseFile(filename: String): String {

@@ -3,10 +3,7 @@ package com.github.crayonxiaoxin.ppjoke_kt.utils
 import com.github.crayonxiaoxin.lib_network.NetworkManager
 import com.github.crayonxiaoxin.ppjoke_kt.BuildConfig
 import com.github.crayonxiaoxin.ppjoke_kt.base.Base
-import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
-import com.github.crayonxiaoxin.ppjoke_kt.model.HasLiked
-import com.github.crayonxiaoxin.ppjoke_kt.model.ShareCount
-import com.github.crayonxiaoxin.ppjoke_kt.model.User
+import com.github.crayonxiaoxin.ppjoke_kt.model.*
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -18,7 +15,7 @@ interface ApiService {
         @Query("expires_time") expires_time: String,
         @Query("name") name: String,
         @Query("qqOpenId") qqOpenId: String,
-    ):Base<User>
+    ): Base<User>
 
     @GET("feeds/queryHotFeedsList")
     suspend fun queryHotFeedsList(
@@ -43,7 +40,7 @@ interface ApiService {
     @GET("ugc/increaseShareCount")
     suspend fun increaseShareCount(
         @Query("itemId") itemId: Long
-    ):Base<ShareCount>
+    ): Base<ShareCount>
 
     @GET("ugc/toggleFavorite")
     suspend fun toggleFavorite(
@@ -74,7 +71,16 @@ interface ApiService {
     suspend fun toggleTagFollow(
         @Query("tagId") tagId: Long,
         @Query("userId") userId: String = UserManager.userId()
-    )
+    ): Base<HasFollow>
+
+    @GET("tag/queryTagList")
+    suspend fun queryTagList(
+        @Query("tagId") tagId: Long,
+        @Query("tagType") tagType: String,
+        @Query("offset") offset: Int = 0,
+        @Query("pageCount") pageCount: Int = 10,
+        @Query("userId") userId: String = UserManager.userId(),
+    ): Base<List<TagList>>
 
     companion object {
         operator fun invoke(): ApiService {

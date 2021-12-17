@@ -10,6 +10,7 @@ abstract class AbsPagingAdapter<T : Any, VH : RecyclerView.ViewHolder>(var diffC
     PagingDataAdapter<T, VH>(diffCallback) {
 
     private var pagingData: PagingData<T>? = null
+    protected var itemClickListener: ((item: T) -> Unit)? = null
 
     suspend fun submit(pagingData: PagingData<T>) {
         this.pagingData = pagingData
@@ -44,6 +45,10 @@ abstract class AbsPagingAdapter<T : Any, VH : RecyclerView.ViewHolder>(var diffC
         } else {
             this.pagingData?.insertHeaderItem(item = item)?.let { submit(it) }
         }
+    }
+
+    fun setOnItemClickListener(listener: (item: T) -> Unit) {
+        this.itemClickListener = listener
     }
 
 }

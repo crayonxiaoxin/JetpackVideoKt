@@ -7,3 +7,7 @@ data class HasLiked(
 data class ShareCount(
     var count: Int?
 )
+
+data class HasFollow(
+    var hasFollow: Boolean?
+)

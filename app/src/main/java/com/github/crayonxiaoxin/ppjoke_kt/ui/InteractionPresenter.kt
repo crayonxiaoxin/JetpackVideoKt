@@ -31,6 +31,9 @@ object InteractionPresenter {
                 feed.ugc?.hasLiked = hasLiked
                 if (hasLiked) {
                     feed.ugc?.hasdiss = false
+                    feed.ugc?.likeCount?.let {
+                        feed.ugc?.likeCount = it + 1
+                    }
                 }
                 feed.ugc?.notifyChange()
                 FlowBus.post(DATA_FROM_INTERACTION, feed)
@@ -47,6 +50,9 @@ object InteractionPresenter {
                 feed.ugc?.hasdiss = hasLiked
                 if (hasLiked) {
                     feed.ugc?.hasLiked = false
+                    feed.ugc?.likeCount?.let {
+                        feed.ugc?.likeCount = it - 1
+                    }
                 }
                 feed.ugc?.notifyChange()
                 FlowBus.post(DATA_FROM_INTERACTION, feed)
