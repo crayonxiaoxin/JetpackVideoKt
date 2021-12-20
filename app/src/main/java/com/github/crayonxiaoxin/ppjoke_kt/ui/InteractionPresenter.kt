@@ -84,6 +84,19 @@ object InteractionPresenter {
     }
 
     @JvmStatic
+    fun toggleFeedFavorite(owner: LifecycleOwner, feed: Feed) {
+        doAfterLogin {
+            val res = prepare { apiService.toggleFavorite(feed.itemId ?: 0L) }
+            if (res.isSuccess) {
+                val hasFavorite = res.getOrNull()?.hasFavorite ?: false
+                feed.ugc?.hasFavorite = hasFavorite
+                feed.ugc?.notifyChange()
+                FlowBus.post(DATA_FROM_INTERACTION, feed)
+            }
+        }
+    }
+
+    @JvmStatic
     fun toggleCommentLiked(owner: LifecycleOwner, comment: Comment) {
         doAfterLogin {
             val res = prepare { apiService.toggleCommentLike(comment.commentId ?: 0) }
@@ -103,6 +116,20 @@ object InteractionPresenter {
                 res.getOrNull()?.hasFollow?.let {
                     tagList.hasFollow = it
                     tagList.notifyChange()
+                }
+            }
+        }
+    }
+
+    @JvmStatic
+    fun toggleFollowUser(owner: LifecycleOwner?, feed: Feed) {
+        doAfterLogin {
+            val res = prepare { apiService.toggleUserFollow(feed.authorId ?: 0) }
+            if (res.isSuccess) {
+                res.getOrNull()?.hasLiked?.let {
+                    feed.author?.hasFollow = it
+                    feed.author?.notifyChange()
+                    FlowBus.post(DATA_FROM_INTERACTION, feed)
                 }
             }
         }

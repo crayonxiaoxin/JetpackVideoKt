@@ -9,14 +9,17 @@ import com.github.crayonxiaoxin.lib_common.global.AppGlobals
 
 object PixUtils {
 
+    @JvmStatic
     fun dp2px(dp: Int): Int {
         return (getDisplayMetrics().density * dp + 0.5f).toInt()
     }
 
+    @JvmStatic
     fun getScreenWidth(): Int {
         return getDisplayMetrics().widthPixels
     }
 
+    @JvmStatic
     fun getScreenHeight(): Int {
         if (isFullScreenDevice()) {
             AppGlobals.application()?.getSystemService(Context.WINDOW_SERVICE)?.let {
@@ -71,6 +74,7 @@ object PixUtils {
         return mIsFullScreen
     }
 
+    @JvmStatic
     fun getDisplayMetrics(): DisplayMetrics {
         return AppGlobals.application.resources.displayMetrics
     }

@@ -13,6 +13,7 @@ import com.github.crayonxiaoxin.ppjoke_kt.base.AbsPagingAdapter
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.LayoutFeedTypeImageBinding
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.LayoutFeedTypeVideoBinding
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
+import com.github.crayonxiaoxin.ppjoke_kt.ui.detail.FeedDetailActivity
 import com.github.crayonxiaoxin.ppjoke_kt.ui.view.ListPlayerView
 
 open class FeedAdapter(val context: Context, val mCategory: String = "") :
@@ -39,7 +40,7 @@ open class FeedAdapter(val context: Context, val mCategory: String = "") :
         val item = getItem(position) ?: return
         holder.bindData(item)
         holder.itemView.setOnClickListener {
-            // to detail
+            FeedDetailActivity.startActivity(context, item, mCategory)
             itemClickListener?.invoke(item)
         }
     }

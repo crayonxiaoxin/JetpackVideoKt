@@ -46,13 +46,13 @@ interface ApiService {
     suspend fun toggleFavorite(
         @Query("itemId") itemId: Long,
         @Query("userId") userId: String = UserManager.userId()
-    )
+    ): Base<HasFavorite>
 
     @GET("ugc/toggleUserFollow")
     suspend fun toggleUserFollow(
         @Query("userId") userId: Int,
         @Query("followUserId") followUserId: String = UserManager.userId()
-    )
+    ): Base<HasLiked>
 
     @GET("ugc/toggleCommentLike")
     suspend fun toggleCommentLike(
@@ -86,6 +86,14 @@ interface ApiService {
     suspend fun queryUser(
         @Query("userId") userId: String = UserManager.userId()
     ): Base<User>
+
+    @GET("comment/queryFeedComments")
+    suspend fun queryFeedComments(
+        @Query("id") id: Int, // 评论id
+        @Query("itemId") itemId: Long, // 帖子id
+        @Query("pageCount") pageCount: Int = 10,
+        @Query("userId") userId: String = UserManager.userId()
+    ): Base<List<Comment>>
 
     companion object {
         operator fun invoke(): ApiService {

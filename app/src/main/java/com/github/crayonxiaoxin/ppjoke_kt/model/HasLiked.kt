@@ -11,3 +11,7 @@ data class ShareCount(
 data class HasFollow(
     var hasFollow: Boolean?
 )
+
+data class HasFavorite(
+    var hasFavorite: Boolean?
+)

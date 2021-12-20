@@ -1,5 +1,8 @@
 package com.github.crayonxiaoxin.ppjoke_kt.model
 
+import androidx.databinding.BaseObservable
+import java.io.Serializable
+
 data class User(
     var avatar: String?,
     var commentCount: Int?,
@@ -18,4 +21,4 @@ data class User(
     var score: Int?,
     var topCommentCount: Int?,
     var userId: Long?
-)
+) : BaseObservable(), Serializable
