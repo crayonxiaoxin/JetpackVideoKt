@@ -61,7 +61,6 @@ open class ViewHandler(val mActivity: FragmentActivity) {
                     viewModel.deleteComment(comment) {
                         if (it) {
                             adapter.delete(comment)
-                            toggleEmptyView()
                             feed.ugc?.commentCount?.let {
                                 feed.ugc?.commentCount = it - 1
                                 feed.ugc?.notifyChange()
@@ -75,12 +74,14 @@ open class ViewHandler(val mActivity: FragmentActivity) {
                 }
                 .create().show()
         }
+        adapter.addOnPagesUpdatedListener {
+            toggleEmptyView()
+        }
         mInateractionBinding.inputView.setOnClickListener {
             if (commentDialog == null) {
                 commentDialog = CommentDialog.newInstance(feed.itemId ?: 0)
             }
             commentDialog?.setOnCommentAddedListener {
-                toggleEmptyView()
                 feed.ugc?.commentCount?.let {
                     feed.ugc?.commentCount = it + 1
                     feed.ugc?.notifyChange()
