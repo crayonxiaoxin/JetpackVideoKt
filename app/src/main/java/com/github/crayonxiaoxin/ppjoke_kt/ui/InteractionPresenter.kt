@@ -1,6 +1,7 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.github.crayonxiaoxin.lib_common.extension.FlowBus
@@ -29,15 +30,21 @@ object InteractionPresenter {
             val res = prepare { apiService.toggleFeedLike(feed.itemId ?: 0) }
             if (res.isSuccess) {
                 val hasLiked = res.getOrNull()?.hasLiked ?: false
+                if (feed.ugc?.hasLiked == hasLiked) return@doAfterLogin
                 feed.ugc?.hasLiked = hasLiked
                 if (hasLiked) {
                     feed.ugc?.hasdiss = false
                     feed.ugc?.likeCount?.let {
                         feed.ugc?.likeCount = it + 1
                     }
+                } else {
+                    feed.ugc?.likeCount?.let {
+                        feed.ugc?.likeCount = it - 1
+                    }
                 }
                 feed.ugc?.notifyChange()
-                FlowBus.post(DATA_FROM_INTERACTION, feed)
+                Log.e("TAG", "toggleFeedLiked: ${feed.hashCode()}")
+                notify(feed)
             }
         }
     }
@@ -56,7 +63,7 @@ object InteractionPresenter {
                     }
                 }
                 feed.ugc?.notifyChange()
-                FlowBus.post(DATA_FROM_INTERACTION, feed)
+                notify(feed)
             }
         }
     }
@@ -84,25 +91,32 @@ object InteractionPresenter {
     }
 
     @JvmStatic
-    fun toggleFeedFavorite(owner: LifecycleOwner, feed: Feed) {
+    fun toggleFeedFavorite(owner: LifecycleOwner?, feed: Feed) {
         doAfterLogin {
             val res = prepare { apiService.toggleFavorite(feed.itemId ?: 0L) }
             if (res.isSuccess) {
                 val hasFavorite = res.getOrNull()?.hasFavorite ?: false
                 feed.ugc?.hasFavorite = hasFavorite
                 feed.ugc?.notifyChange()
-                FlowBus.post(DATA_FROM_INTERACTION, feed)
+                notify(feed)
             }
         }
     }
 
     @JvmStatic
-    fun toggleCommentLiked(owner: LifecycleOwner, comment: Comment) {
+    fun toggleCommentLiked(owner: LifecycleOwner?, comment: Comment) {
         doAfterLogin {
             val res = prepare { apiService.toggleCommentLike(comment.commentId ?: 0) }
             if (res.isSuccess) {
                 val hasLiked = res.getOrNull()?.hasLiked ?: false
-                comment.ugc?.hasdiss = hasLiked
+                comment.ugc?.hasLiked = hasLiked
+                comment.ugc?.likeCount?.let {
+                    if (hasLiked) {
+                        comment.ugc?.likeCount = it + 1
+                    } else {
+                        comment.ugc?.likeCount = it - 1
+                    }
+                }
                 comment.ugc?.notifyChange()
             }
         }
@@ -129,10 +143,14 @@ object InteractionPresenter {
                 res.getOrNull()?.hasLiked?.let {
                     feed.author?.hasFollow = it
                     feed.author?.notifyChange()
-                    FlowBus.post(DATA_FROM_INTERACTION, feed)
+                    notify(feed)
                 }
             }
         }
+    }
+
+    suspend fun notify(feed: Feed) {
+        FlowBus.post(DATA_FROM_INTERACTION, feed)
     }
 
     @JvmStatic

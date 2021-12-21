@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/fragment_my.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/fragment_sofa.xml" value="0.1671875" />
+        <entry key="app/src/main/res/layout/layout_comment_dialog.xml" value="0.1222972972972973" />
         <entry key="app/src/main/res/layout/layout_common_list.xml" value="0.17239583333333333" />
         <entry key="app/src/main/res/layout/layout_exo_player_controller_view.xml" value="0.1293918918918919" />
         <entry key="app/src/main/res/layout/layout_exo_player_view.xml" value="0.1293918918918919" />

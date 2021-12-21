@@ -3,6 +3,7 @@ package com.github.crayonxiaoxin.lib_common.extension
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
 
@@ -17,7 +18,7 @@ object FlowBus {
     suspend fun <T : Any> observe(
         eventName: String,
         isSticky: Boolean = false,
-        onChange: (T) -> Unit
+        onChange: suspend (T) -> Unit
     ) {
         getEventFlow(eventName, isSticky).collect {
             onChange(it as T)
@@ -28,7 +29,7 @@ object FlowBus {
         lifecycleOwner: LifecycleOwner,
         eventName: String,
         isSticky: Boolean = false,
-        onChange: (T) -> Unit
+        onChange: suspend (T) -> Unit
     ) {
         observe(eventName, isSticky, onChange)
         lifecycleOwner.lifecycle.addObserver(object : LifecycleEventObserver {

@@ -58,12 +58,9 @@ class ImageViewHandler(mActivity: FragmentActivity) : ViewHandler(mActivity) {
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                // 控制 topBar 的显示隐藏
                 val visible =
                     mHeaderBinding.root.top <= -mHeaderBinding.headerAuthorInfo.root.measuredHeight
-                Log.e(
-                    "TAG",
-                    "onScrolled: top = ${mHeaderBinding.root.top}, height = ${mHeaderBinding.root.measuredHeight}"
-                )
                 binding.authorInfoLayout.root.visibility = if (visible) View.VISIBLE else View.GONE
                 binding.title.visibility = if (visible) View.GONE else View.VISIBLE
             }

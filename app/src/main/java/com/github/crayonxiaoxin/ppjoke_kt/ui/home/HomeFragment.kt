@@ -1,12 +1,17 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.github.crayonxiaoxin.lib_common.extension.FlowBus
 import com.github.crayonxiaoxin.lib_nav_annotation.FragmentDestination
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 import com.github.crayonxiaoxin.ppjoke_kt.base.AbsListFragment
 import com.github.crayonxiaoxin.ppjoke_kt.exoplayer.PageListPlayDetector
+import com.github.crayonxiaoxin.ppjoke_kt.ui.InteractionPresenter
 import kotlinx.coroutines.launch
 
 @FragmentDestination("main/tabs/home", asStarter = true)
@@ -52,7 +57,9 @@ class HomeFragment() : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
             // 如果是视频，不需要暂停
             shouldPause = it.itemType != Feed.TYPE_VIDEO
             lifecycleScope.launch {
-//                adapter.update(it.copy(feeds_text = it.feeds_text + " haha"))
+                FlowBus.observe<Feed>(InteractionPresenter.DATA_FROM_INTERACTION) {
+                    adapter.update(it)
+                }
             }
         }
     }

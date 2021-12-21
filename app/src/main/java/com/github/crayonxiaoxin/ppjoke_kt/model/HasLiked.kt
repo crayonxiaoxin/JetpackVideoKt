@@ -15,3 +15,7 @@ data class HasFollow(
 data class HasFavorite(
     var hasFavorite: Boolean?
 )
+
+data class DelResult(
+    var result: Boolean?
+)

@@ -1,14 +1,12 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui.my
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.github.crayonxiaoxin.lib_common.global.AppGlobals
 import com.github.crayonxiaoxin.lib_common.utils.StatusBar
 import com.github.crayonxiaoxin.lib_nav_annotation.FragmentDestination
 import com.github.crayonxiaoxin.ppjoke_kt.R
@@ -40,7 +38,7 @@ class MyFragment : Fragment() {
             }
         }
         binding.actionLogout.setOnClickListener {
-            AlertDialog.Builder(context)
+            AlertDialog.Builder(requireContext())
                 .setMessage(R.string.fragment_my_logout)
                 .setPositiveButton(R.string.fragment_my_logout_ok) { dialog, _ ->
                     dialog.dismiss()

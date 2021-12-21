@@ -34,7 +34,7 @@ abstract class AbsPagingAdapter<T : Any, VH : RecyclerView.ViewHolder>(var diffC
 
     suspend fun delete(item: T) {
         this.pagingData?.filter {
-            diffCallback.areItemsTheSame(it, item)
+            !diffCallback.areItemsTheSame(it, item)
         }?.let { submit(it) }
     }
 

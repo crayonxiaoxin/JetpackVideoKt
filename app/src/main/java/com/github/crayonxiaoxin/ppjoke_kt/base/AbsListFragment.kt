@@ -55,6 +55,7 @@ abstract class AbsListFragment<T : Any, VM : AbsViewModel<T>, Adapter : AbsPagin
         recyclerView.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
+        recyclerView.itemAnimator = null
 
         // 分割线
         ContextCompat.getDrawable(requireContext(), R.drawable.list_divider)?.let {
