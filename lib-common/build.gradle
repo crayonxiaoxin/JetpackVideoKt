@@ -76,4 +76,16 @@ dependencies {
     api "com.google.android.exoplayer:exoplayer-core:$exo_version"
     api "com.google.android.exoplayer:exoplayer-dash:$exo_version"
     api "com.google.android.exoplayer:exoplayer-ui:$exo_version"
+
+    // CameraX core library using the camera2 implementation
+    def camerax_version = "1.0.2"
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    api "androidx.camera:camera-core:${camerax_version}"
+    api "androidx.camera:camera-camera2:${camerax_version}"
+    // If you want to additionally use the CameraX Lifecycle library
+    api "androidx.camera:camera-lifecycle:${camerax_version}"
+    // If you want to additionally use the CameraX View class
+    api "androidx.camera:camera-view:1.0.0-alpha32"
+    // If you want to additionally use the CameraX Extensions library
+    api "androidx.camera:camera-extensions:1.0.0-alpha32"
 }

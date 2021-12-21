@@ -1,11 +1,13 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui.detail
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.github.crayonxiaoxin.lib_common.global.toast
@@ -22,6 +24,10 @@ class CommentDialog : AppCompatDialogFragment(), View.OnClickListener {
     private var itemId: Long = 0L
     private lateinit var binding: LayoutCommentDialogBinding
     private var mListener: ((comment: Comment) -> Unit)? = null
+    private val cameraResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            this.onActivityResult(it.resultCode, it.data)
+        }
 
     companion object {
         const val KEY_ITEM_ID = "key_item_id"
@@ -143,6 +149,10 @@ class CommentDialog : AppCompatDialogFragment(), View.OnClickListener {
                 toast("评论失败: ${res.exceptionOrNull()?.message}")
             }
         }
+    }
+
+    private fun onActivityResult(resultCode: Int?, data: Intent?) {
+
     }
 
     fun setOnCommentAddedListener(listener: (comment: Comment) -> Unit) {
