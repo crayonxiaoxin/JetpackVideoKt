@@ -17,6 +17,7 @@ import com.github.crayonxiaoxin.ppjoke_kt.R
 import com.github.crayonxiaoxin.ppjoke_kt.base.prepare
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.LayoutCommentDialogBinding
 import com.github.crayonxiaoxin.ppjoke_kt.model.Comment
+import com.github.crayonxiaoxin.ppjoke_kt.ui.publish.CaptureActivity
 import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
 import kotlinx.coroutines.launch
 
@@ -117,7 +118,7 @@ class CommentDialog : AppCompatDialogFragment(), View.OnClickListener {
         when (id) {
             R.id.comment_send -> publishComment()
             R.id.comment_video -> {
-
+                cameraResult.launch(CaptureActivity.intentStartActivity(requireContext()))
             }
             R.id.comment_delete -> resetFile()
         }
