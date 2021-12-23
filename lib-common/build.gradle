@@ -88,4 +88,8 @@ dependencies {
     api "androidx.camera:camera-view:1.0.0-alpha32"
     // If you want to additionally use the CameraX Extensions library
     api "androidx.camera:camera-extensions:1.0.0-alpha32"
+
+    api "com.github.chrisbanes:PhotoView:2.3.0@aar"
+
+    api 'com.aliyun.dpa:oss-android-sdk:2.9.10'
 }

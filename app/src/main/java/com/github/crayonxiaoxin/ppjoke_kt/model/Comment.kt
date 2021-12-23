@@ -21,4 +21,9 @@ data class Comment(
     var userId: Int?,
     var videoUrl: String?,
     var width: Int?
-) : BaseObservable(), Serializable
+) : BaseObservable(), Serializable{
+    companion object{
+        const val COMMENT_TYPE_IMAGE_TEXT = 2
+        const val COMMENT_TYPE_VIDEO = 3
+    }
+}

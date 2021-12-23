@@ -10,6 +10,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.util.Size
 import android.view.OrientationEventListener
 import android.view.Surface
@@ -36,9 +37,7 @@ class CaptureActivity : AppCompatActivity() {
         const val RESULT_FILE_WIDTH = "file_width"
         const val RESULT_FILE_HEIGHT = "file_height"
         fun intentStartActivity(context: Context): Intent {
-            return Intent(context, CaptureActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }
+            return Intent(context, CaptureActivity::class.java)
         }
     }
 
@@ -79,7 +78,18 @@ class CaptureActivity : AppCompatActivity() {
         }
     private val previewResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
+            if (it.resultCode == RESULT_OK) {
+                Log.e("TAG", "ok: $outputFileUri")
+                val apply = Intent().apply {
+                    putExtra(RESULT_FILE_PATH, outputFileUri)
+                    putExtra(RESULT_FILE_TYPE, !takingPicture)
+                    // 宽高互换是因为 resolution 是指横屏的 size
+                    putExtra(RESULT_FILE_WIDTH, resolution.height)
+                    putExtra(RESULT_FILE_HEIGHT, resolution.width)
+                }
+                setResult(RESULT_OK, apply)
+                finish()
+            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,9 +100,11 @@ class CaptureActivity : AppCompatActivity() {
 
         binding.recordView.setOnRecordListener(object : RecordView.RecordListener {
             override fun onClick() {
+                Log.e("TAG", "onClick: ")
                 takingPicture = true
                 val file = File(
-                    getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
+//                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     "${System.currentTimeMillis()}.jpeg"
                 )
                 val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
@@ -114,7 +126,8 @@ class CaptureActivity : AppCompatActivity() {
             override fun onLongClick() {
                 takingPicture = false
                 val file = File(
-                    getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
+//                    getExternalFilesDir(Environment.DIRECTORY_MOVIES), // 不可被扫描
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
                     "${System.currentTimeMillis()}.mp4"
                 )
                 val outputFileOptions = VideoCapture.OutputFileOptions.Builder(file).build()
@@ -150,7 +163,15 @@ class CaptureActivity : AppCompatActivity() {
             val mimeType = if (takingPicture) "image/jpeg" else "video/mp4"
             MediaScannerConnection.scanFile(this, arrayOf(uri.path), arrayOf(mimeType), null)
 
-//            previewResult.launch()
+            Log.e("TAG", "onFileSave: ")
+            previewResult.launch(
+                PreviewActivity.intentStartActivity(
+                    this,
+                    uri,
+                    !takingPicture,
+                    "完成"
+                )
+            )
         }
     }
 

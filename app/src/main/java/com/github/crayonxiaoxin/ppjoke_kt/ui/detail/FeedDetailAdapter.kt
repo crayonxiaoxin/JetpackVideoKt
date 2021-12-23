@@ -14,8 +14,12 @@ import com.github.crayonxiaoxin.ppjoke_kt.utils.UserManager
 class FeedDetailAdapter : AbsPagingAdapter<Comment, FeedDetailAdapter.ViewHolder>(diff) {
 
     private var mDeleteListener: ((Comment) -> Unit)? = null
+    private var mPreviewListener: ((Comment) -> Unit)? = null
     fun setOnItemDeleteListener(listener: (Comment) -> Unit) {
         this.mDeleteListener = listener
+    }
+    fun setOnPreviewListener(listener: (Comment) -> Unit) {
+        this.mPreviewListener = listener
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -23,6 +27,9 @@ class FeedDetailAdapter : AbsPagingAdapter<Comment, FeedDetailAdapter.ViewHolder
         holder.bindData(item)
         holder.binding.commentDelete.setOnClickListener {
             mDeleteListener?.invoke(item)
+        }
+        holder.binding.commentCover.setOnClickListener {
+            mPreviewListener?.invoke(item)
         }
     }
 

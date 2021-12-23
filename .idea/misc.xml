@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/layout/activity_feed_detail_type_image.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.12552083333333333" />
+        <entry key="app/src/main/res/layout/activity_preview.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_publish.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/activity_tag_feed_list.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_find.xml" value="0.1671875" />

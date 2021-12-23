@@ -81,7 +81,7 @@ class RecordView : View, View.OnClickListener, View.OnLongClickListener {
         }
 
         setOnTouchListener { _, event ->
-            performClick()
+//            performClick()
             if (event.action == MotionEvent.ACTION_DOWN) {
                 isRecording = true
                 startRecordTime = System.currentTimeMillis()

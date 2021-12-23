@@ -1,6 +1,6 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui.detail
 
-import android.util.Log
+import android.net.Uri
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
@@ -10,13 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.crayonxiaoxin.lib_common.extension.FlowBus
 import com.github.crayonxiaoxin.lib_common.view.EmptyView
 import com.github.crayonxiaoxin.ppjoke_kt.R
 import com.github.crayonxiaoxin.ppjoke_kt.databinding.LayoutFeedDetailBottomInateractionBinding
+import com.github.crayonxiaoxin.ppjoke_kt.model.Comment
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 import com.github.crayonxiaoxin.ppjoke_kt.ui.InteractionPresenter
-import com.github.crayonxiaoxin.ppjoke_kt.utils.UserManager
+import com.github.crayonxiaoxin.ppjoke_kt.ui.publish.PreviewActivity
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -73,6 +73,19 @@ open class ViewHandler(val mActivity: FragmentActivity) {
                     dialog.dismiss()
                 }
                 .create().show()
+        }
+        adapter.setOnPreviewListener {
+            val isVideo = it.commentType == Comment.COMMENT_TYPE_VIDEO
+            val url = if (isVideo) it.videoUrl else it.imageUrl
+            url?.let {
+                mActivity.startActivity(
+                    PreviewActivity.intentStartActivity(
+                        mActivity,
+                        Uri.parse(url),
+                        isVideo
+                    )
+                )
+            }
         }
         adapter.addOnPagesUpdatedListener {
             toggleEmptyView()
