@@ -74,7 +74,7 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
                 if (child == scrollingView) {
                     val canScrollUp = scrollingView?.canScrollVertically(-1) ?: false
                     if (canScrollUp) return false
-                    return refBottom > minHeight + 5.dp && refBottom < childOriginalHeight
+                    return refBottom != minHeight && refBottom != childOriginalHeight
                 }
             }
             return false
@@ -164,7 +164,9 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
             val layoutParams = view.layoutParams
             val height = layoutParams.height
             if (overScroller.computeScrollOffset() && height >= minHeight && height <= childOriginalHeight) {
-                val newHeight = min(overScroller.currY, childOriginalHeight)
+//                val newHeight = min(overScroller.currY, childOriginalHeight)
+                // 不能超过原始值  不能少于最小值
+                val newHeight = max(min(overScroller.currY, childOriginalHeight), minHeight)
                 if (newHeight != height) {
                     layoutParams.height = newHeight
                     view.layoutParams = layoutParams
