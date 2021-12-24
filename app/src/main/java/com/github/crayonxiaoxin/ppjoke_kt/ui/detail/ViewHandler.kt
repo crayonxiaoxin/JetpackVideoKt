@@ -124,4 +124,14 @@ open class ViewHandler(val mActivity: FragmentActivity) {
     open fun setAdapter() {
         mRecyclerView.adapter = adapter
     }
+
+    open fun onPause(){
+    }
+
+    open fun onResume(){
+    }
+
+    open fun onBackPressed(){
+
+    }
 }

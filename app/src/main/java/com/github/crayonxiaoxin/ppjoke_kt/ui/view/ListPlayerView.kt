@@ -17,18 +17,18 @@ import com.github.crayonxiaoxin.ppjoke_kt.utils.setImageUrl
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerControlView
 
-class ListPlayerView : FrameLayout, IPlayTarget, Player.Listener,
+open class ListPlayerView : FrameLayout, IPlayTarget, Player.Listener,
     PlayerControlView.VisibilityListener {
-    private var mVideoUrl: String = ""
+    protected var mVideoUrl: String = ""
     private var isPlaying: Boolean = false
-    private var mCategory: String = ""
-    private var mWidthPx: Int = 0
-    private var mHeightPx: Int = 0
+    protected var mCategory: String = ""
+    protected var mWidthPx: Int = 0
+    protected var mHeightPx: Int = 0
 
-    private var blurView: PPImageView
-    private var coverView: PPImageView
-    private var playBtn: ImageView
-    private var bufferView: ProgressBar
+    protected var blurView: PPImageView
+    protected var coverView: PPImageView
+    protected var playBtn: ImageView
+    protected var bufferView: ProgressBar
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -77,7 +77,7 @@ class ListPlayerView : FrameLayout, IPlayTarget, Player.Listener,
         setSize()
     }
 
-    private fun setSize() {
+    open fun setSize() {
         val maxWidth = PixUtils.getScreenWidth()
         val maxHeight = maxWidth
         val layoutWidth = maxWidth

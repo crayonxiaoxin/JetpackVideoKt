@@ -30,9 +30,25 @@ class FeedDetailActivity : AppCompatActivity() {
             if (feed.itemType == Feed.TYPE_IMAGE) {
                 viewHandler = ImageViewHandler(this)
             } else {
-
+                viewHandler = VideoViewHandler(this)
             }
             viewHandler?.bindInitData(feed)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewHandler?.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewHandler?.onPause()
+    }
+
+    override fun onBackPressed() {
+        viewHandler?.onBackPressed()
+        super.onBackPressed()
+    }
+
 }
