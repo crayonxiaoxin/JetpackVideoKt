@@ -2,7 +2,6 @@ package com.github.crayonxiaoxin.ppjoke_kt.ui.detail
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.OverScroller
@@ -19,10 +18,12 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
 
     private var minHeight: Int = 0
     private var scrollingId: Int
+    private var scrollingHeaderId: Int
 
     private var childOriginalHeight: Int = 0
     private var scrollingView: View? = null
     private var refChild: FullScreenPlayerView? = null
+    private var scrollingHeaderView: View? = null
     private var canFullScreen: Boolean = false
 
     private var runnable: FlingRunnable? = null
@@ -34,6 +35,8 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
         val typedArray =
             context.obtainStyledAttributes(attrs, R.styleable.view_zoom_behavior)
         scrollingId = typedArray.getResourceId(R.styleable.view_zoom_behavior_scrolling_id, 0)
+        scrollingHeaderId =
+            typedArray.getResourceId(R.styleable.view_zoom_behavior_scrolling_header_id, 0)
         minHeight =
             typedArray.getDimensionPixelOffset(R.styleable.view_zoom_behavior_min_height, 200.dp)
         typedArray.recycle()
@@ -52,6 +55,7 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
         if (viewDragHelper == null) {
             viewDragHelper = ViewDragHelper.create(parent, 1.0f, mCallback)
             scrollingView = parent.findViewById(scrollingId)
+            scrollingHeaderView = parent.findViewById(scrollingHeaderId)
             refChild = child
             childOriginalHeight = child.measuredHeight
             canFullScreen = childOriginalHeight > parent.measuredWidth
@@ -71,9 +75,7 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
                 if (child == playerView) {
                     return refBottom in minHeight..childOriginalHeight
                 }
-                if (child == scrollingView) {
-                    val canScrollUp = scrollingView?.canScrollVertically(-1) ?: false
-                    if (canScrollUp) return false
+                if (child == scrollingView && scrollingView != null) {
                     return refBottom != minHeight && refBottom != childOriginalHeight
                 }
             }
@@ -82,21 +84,28 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
 
         // 滑动多少距离 视为 拖拽
         override fun getViewVerticalDragRange(child: View): Int {
-            return viewDragHelper?.touchSlop ?: 10
+            return viewDragHelper?.touchSlop ?: 1
         }
 
-        // 本次滑动最终能滑动的距离
+        // 本次滑动后 child 的 top 值
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
             if (refChild == null || dy == 0) return 0
             // dy>0 向下滑，dy<0 向上滑
             val refBottom = refChild!!.bottom
-            Log.e("TAG", "clampViewPositionVertical: ${scrollingView!!.canScrollVertically(-1)}")
+            // 如果本次滑动的是 recyclerView，那么它最后的 top 值不能小于（playerView 的最小高度 + authorInfo 的高度）
+            scrollingView?.let {
+                val headerHeight = scrollingHeaderView?.height ?: 0
+                if (child == it && dy < 0 && it.top <= minHeight + headerHeight) {
+                    return minHeight + headerHeight
+                }
+            }
             if ((dy < 0 && refBottom <= minHeight)
                 || (dy > 0 && refBottom >= childOriginalHeight)
                 || (dy > 0 && (scrollingView != null && scrollingView!!.canScrollVertically(-1)))
             ) {
                 return 0
             }
+
             val maxConsumed = if (dy > 0) {
                 if (refBottom + dy > childOriginalHeight) { // 下滑的高度不能超过原始高度
                     childOriginalHeight - refBottom
@@ -104,7 +113,7 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
                     dy
                 }
             } else {
-                if (refBottom + dy < minHeight) { // 上画的高度不能超过最小高度
+                if (refBottom + dy < minHeight) { // 上滑的高度不能超过最小高度
                     minHeight - refBottom
                 } else {
                     dy
@@ -119,6 +128,7 @@ class ViewZoomBehavior : CoordinatorLayout.Behavior<FullScreenPlayerView> {
             }
             return maxConsumed
         }
+
 
         override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
             super.onViewReleased(releasedChild, xvel, yvel)

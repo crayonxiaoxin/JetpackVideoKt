@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             app:layout_behavior="com.github.crayonxiaoxin.ppjoke_kt.ui.detail.ViewZoomBehavior"
             app:min_height="200dp"
+            app:scrolling_header_id="@id/author_info"
             app:scrolling_id="@id/recyclerView" />
 
         <include
@@ -67,8 +68,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_20"
             android:layout_marginTop="48dp"
-            app:tint="@color/color_white"
-            android:src="@drawable/icon_close" />
+            android:src="@drawable/icon_close"
+            app:tint="@color/color_white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

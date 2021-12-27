@@ -15,6 +15,7 @@
     <declare-styleable name="view_zoom_behavior">
         <attr name="min_height" format="dimension" />
         <attr name="scrolling_id" format="reference" />
+        <attr name="scrolling_header_id" format="reference" />
     </declare-styleable>
 
 </resources>
