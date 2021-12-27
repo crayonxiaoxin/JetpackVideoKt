@@ -3,9 +3,7 @@ package com.github.crayonxiaoxin.ppjoke_kt.ui.publish
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
@@ -19,9 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.EnvironmentCompat
 import androidx.databinding.DataBindingUtil
 import com.github.crayonxiaoxin.lib_common.global.toast
 import com.github.crayonxiaoxin.ppjoke_kt.R
@@ -79,7 +75,6 @@ class CaptureActivity : AppCompatActivity() {
     private val previewResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == RESULT_OK) {
-                Log.e("TAG", "ok: $outputFileUri")
                 val apply = Intent().apply {
                     putExtra(RESULT_FILE_PATH, outputFileUri)
                     putExtra(RESULT_FILE_TYPE, !takingPicture)
@@ -100,7 +95,6 @@ class CaptureActivity : AppCompatActivity() {
 
         binding.recordView.setOnRecordListener(object : RecordView.RecordListener {
             override fun onClick() {
-                Log.e("TAG", "onClick: ")
                 takingPicture = true
                 val file = File(
 //                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
@@ -113,6 +107,11 @@ class CaptureActivity : AppCompatActivity() {
                     ContextCompat.getMainExecutor(this@CaptureActivity),
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+//                            val degrees =
+//                                FileUtils.getPhotoRotation(outputFileResults.savedUri).toFloat()
+//                            val rotateUri =
+//                                FileUtils.rotatePhoto(outputFileResults.savedUri, -180f)
+//                            Log.e("TAG", "onImageSaved: $degrees $rotateUri")
                             onFileSave(outputFileResults.savedUri)
                         }
 
@@ -199,11 +198,13 @@ class CaptureActivity : AppCompatActivity() {
                 .build()
             preview.setSurfaceProvider(binding.textureView.surfaceProvider)
             imageCapture = ImageCapture.Builder()
-                .setTargetResolution(resolution)
+//                .setTargetResolution(resolution) // 这个不知道为何，没办法获取正确的 rotation
+                .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .setCameraSelector(cameraSelector)
                 .build()
             videoCapture = VideoCapture.Builder()
-                .setTargetResolution(resolution)
+//                .setTargetResolution(resolution) // 这个也可以获取正确的 rotation
+                .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                 .setCameraSelector(cameraSelector)
                 .setVideoFrameRate(25)
                 .setAudioBitRate(3 * 1024 * 1024)
