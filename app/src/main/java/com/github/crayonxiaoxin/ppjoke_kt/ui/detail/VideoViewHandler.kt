@@ -68,6 +68,7 @@ class VideoViewHandler(mActivity: FragmentActivity) : ViewHandler(mActivity) {
 
     override fun onBackPressed() {
         backPressed = true
+        setViewAppearance(false)
     }
 
     override fun onPause() {
