@@ -217,7 +217,6 @@ class CaptureActivity : AppCompatActivity() {
                         in 225..314 -> Surface.ROTATION_90
                         else -> Surface.ROTATION_0
                     }
-                    preview.targetRotation = rotation
                     imageCapture?.targetRotation = rotation
                     videoCapture?.setTargetRotation(rotation)
                 }
