@@ -18,7 +18,7 @@ class TagListViewModel : AbsViewModel<TagList>() {
     var tagType: String = ""
     override fun getList(): Flow<PagingData<TagList>> {
         return Pager(
-            config = PagingConfig(100, initialLoadSize = 100),
+            config = PagingConfig(10, initialLoadSize = 10),
             pagingSourceFactory = { TagListPagingSource(tagType) }
         ).flow.cachedIn(viewModelScope)
     }

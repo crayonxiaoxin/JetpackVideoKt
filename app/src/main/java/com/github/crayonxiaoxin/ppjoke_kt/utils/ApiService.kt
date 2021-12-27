@@ -4,9 +4,7 @@ import com.github.crayonxiaoxin.lib_network.NetworkManager
 import com.github.crayonxiaoxin.ppjoke_kt.BuildConfig
 import com.github.crayonxiaoxin.ppjoke_kt.base.Base
 import com.github.crayonxiaoxin.ppjoke_kt.model.*
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -61,23 +59,24 @@ interface ApiService {
         @Query("userId") userId: String = UserManager.userId()
     ): Base<HasLiked>
 
+    @FormUrlEncoded
     @POST("comment/addComment")
     suspend fun addComment(
-        @Query("itemId") itemId: Long,
-        @Query("commentText") commentText: String,
-        @Query("width") width: Int = 0,
-        @Query("height") height: Int = 0,
-        @Query("video_url") video_url: String = "",
-        @Query("image_url") image_url: String = "",
-        @Query("userId") userId: String = UserManager.userId()
-    ):Base<Comment>
+        @Field("itemId") itemId: Long,
+        @Field("commentText") commentText: String,
+        @Field("width") width: Int = 0,
+        @Field("height") height: Int = 0,
+        @Field("video_url") video_url: String = "",
+        @Field("image_url") image_url: String = "",
+        @Field("userId") userId: String = UserManager.userId()
+    ): Base<Comment>
 
     @GET("comment/deleteComment")
     suspend fun deleteComment(
         @Query("itemId") itemId: Long,
         @Query("commentId") commentId: Long,
         @Query("userId") userId: String = UserManager.userId()
-    ):Base<DelResult>
+    ): Base<DelResult>
 
     @GET("tag/toggleTagFollow")
     suspend fun toggleTagFollow(
@@ -106,6 +105,20 @@ interface ApiService {
         @Query("pageCount") pageCount: Int = 10,
         @Query("userId") userId: String = UserManager.userId()
     ): Base<List<Comment>>
+
+    @FormUrlEncoded
+    @POST("feeds/publish")
+    suspend fun publishFeed(
+        @Field("feedText") feedText: String?,
+        @Field("feedType") feedType: Int?,
+        @Field("tagId") tagId: Long?,
+        @Field("tagTitle") tagTitle: String?,
+        @Field("coverUrl") coverUrl: String?,
+        @Field("fileUrl") fileUrl: String?,
+        @Field("fileWidth") fileWidth: Int?,
+        @Field("fileHeight") fileHeight: Int?,
+        @Field("userId") userId: String = UserManager.userId()
+    ): Base<DelResult>
 
     companion object {
         operator fun invoke(): ApiService {

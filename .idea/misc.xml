@@ -39,6 +39,7 @@
         <entry key="app/src/main/res/layout/layout_share_item.xml" value="0.12567567567567567" />
         <entry key="app/src/main/res/layout/layout_simple_exo_player_controller_view.xml" value="0.1293918918918919" />
         <entry key="app/src/main/res/layout/layout_simple_exo_player_view.xml" value="0.1293918918918919" />
+        <entry key="app/src/main/res/layout/layout_tag_bottom_sheet_dialog.xml" value="0.14054054054054055" />
         <entry key="app/src/main/res/layout/layout_tag_feed_list_header.xml" value="0.12567567567567567" />
         <entry key="app/src/main/res/layout/layout_tag_list_item.xml" value="0.1" />
         <entry key="lib-common/src/main/res/layout/layout_empty_view.xml" value="0.1734375" />
