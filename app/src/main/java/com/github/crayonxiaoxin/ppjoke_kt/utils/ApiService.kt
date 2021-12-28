@@ -16,6 +16,14 @@ interface ApiService {
         @Query("qqOpenId") qqOpenId: String,
     ): Base<User>
 
+    @GET("feeds/queryProfileFeeds")
+    suspend fun queryProfileFeeds(
+        @Query("feedId") feedId: Int,
+        @Query("profileType") profileType: String,
+        @Query("userId") userId: String = UserManager.userId(),
+        @Query("pageCount") pageCount: Int = 10
+    ): Base<List<Feed>>
+
     @GET("feeds/queryHotFeedsList")
     suspend fun queryHotFeedsList(
         @Query("feedId") feedId: Int,
@@ -76,6 +84,11 @@ interface ApiService {
         @Query("itemId") itemId: Long,
         @Query("commentId") commentId: Long,
         @Query("userId") userId: String = UserManager.userId()
+    ): Base<DelResult>
+
+    @GET("feeds/deleteFeed")
+    suspend fun deleteFeed(
+        @Query("itemId") itemId: Long
     ): Base<DelResult>
 
     @GET("tag/toggleTagFollow")

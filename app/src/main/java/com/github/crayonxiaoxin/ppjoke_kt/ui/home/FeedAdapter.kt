@@ -16,7 +16,7 @@ import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 import com.github.crayonxiaoxin.ppjoke_kt.ui.detail.FeedDetailActivity
 import com.github.crayonxiaoxin.ppjoke_kt.ui.view.ListPlayerView
 
-open class FeedAdapter(val context: Context, val mCategory: String = "") :
+open class FeedAdapter(open val context: Context, open val mCategory: String = "") :
     AbsPagingAdapter<Feed, FeedAdapter.ViewHolder>(diff) {
 
     override fun getItemViewType(position: Int): Int {

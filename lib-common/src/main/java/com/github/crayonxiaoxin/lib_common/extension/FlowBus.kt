@@ -44,7 +44,7 @@ object FlowBus {
     private fun getEventFlow(eventName: String, isSticky: Boolean = false): MutableSharedFlow<Any> {
         var event = flowEvents[eventName]
         if (event == null) {
-            val replay = if (isSticky) 1 else 0
+            val replay = if (isSticky) 1 else 0 // 是否接收以前的数据
             event = MutableSharedFlow(replay, 1)
             flowEvents[eventName] = event
         }

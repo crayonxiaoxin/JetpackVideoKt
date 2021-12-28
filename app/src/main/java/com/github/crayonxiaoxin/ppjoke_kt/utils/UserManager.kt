@@ -2,12 +2,9 @@ package com.github.crayonxiaoxin.ppjoke_kt.utils
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import com.github.crayonxiaoxin.lib_common.global.AppGlobals
 import com.github.crayonxiaoxin.ppjoke_kt.base.prepare
 import com.github.crayonxiaoxin.ppjoke_kt.model.User
@@ -16,7 +13,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 

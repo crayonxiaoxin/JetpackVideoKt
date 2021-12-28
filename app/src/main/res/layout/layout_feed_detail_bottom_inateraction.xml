@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{()->InteractionPresenter.toggleFeedLiked(owner,feed)}"
+                android:onClick="@{()->InteractionPresenter.toggleFeedLiked(feed)}"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -97,7 +97,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{()->InteractionPresenter.toggleFeedFavorite(owner,feed)}"
+                android:onClick="@{()->InteractionPresenter.toggleFeedFavorite(feed)}"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatImageView

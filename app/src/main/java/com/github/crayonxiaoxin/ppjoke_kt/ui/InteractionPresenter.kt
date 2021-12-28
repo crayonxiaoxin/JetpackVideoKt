@@ -17,7 +17,7 @@ import com.github.crayonxiaoxin.ppjoke_kt.utils.apiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -25,7 +25,7 @@ object InteractionPresenter {
     const val DATA_FROM_INTERACTION = "data_from_interaction"
 
     @JvmStatic
-    fun toggleFeedLiked(owner: LifecycleOwner, feed: Feed) {
+    fun toggleFeedLiked(feed: Feed) {
         doAfterLogin {
             val res = prepare { apiService.toggleFeedLike(feed.itemId ?: 0) }
             if (res.isSuccess) {
@@ -50,7 +50,7 @@ object InteractionPresenter {
     }
 
     @JvmStatic
-    fun toggleFeedDiss(owner: LifecycleOwner, feed: Feed) {
+    fun toggleFeedDiss(feed: Feed) {
         doAfterLogin {
             val res = prepare { apiService.dissFeed(feed.itemId ?: 0) }
             if (res.isSuccess) {
@@ -91,7 +91,7 @@ object InteractionPresenter {
     }
 
     @JvmStatic
-    fun toggleFeedFavorite(owner: LifecycleOwner?, feed: Feed) {
+    fun toggleFeedFavorite(feed: Feed) {
         doAfterLogin {
             val res = prepare { apiService.toggleFavorite(feed.itemId ?: 0L) }
             if (res.isSuccess) {
@@ -104,7 +104,7 @@ object InteractionPresenter {
     }
 
     @JvmStatic
-    fun toggleCommentLiked(owner: LifecycleOwner?, comment: Comment) {
+    fun toggleCommentLiked(comment: Comment) {
         doAfterLogin {
             val res = prepare { apiService.toggleCommentLike(comment.commentId ?: 0) }
             if (res.isSuccess) {
@@ -123,7 +123,7 @@ object InteractionPresenter {
     }
 
     @JvmStatic
-    fun toggleTagLiked(owner: LifecycleOwner?, tagList: TagList) {
+    fun toggleTagLiked(tagList: TagList) {
         doAfterLogin {
             val res = prepare { apiService.toggleTagFollow(tagList.tagId) }
             if (res.isSuccess) {
@@ -136,7 +136,7 @@ object InteractionPresenter {
     }
 
     @JvmStatic
-    fun toggleFollowUser(owner: LifecycleOwner?, feed: Feed) {
+    fun toggleFollowUser(feed: Feed) {
         doAfterLogin {
             val res = prepare { apiService.toggleUserFollow(feed.authorId ?: 0) }
             if (res.isSuccess) {
@@ -147,6 +147,16 @@ object InteractionPresenter {
                 }
             }
         }
+    }
+
+    @JvmStatic
+    fun deleteFeed(feed: Feed): StateFlow<Boolean> {
+        val flow = MutableStateFlow(false)
+        doAfterLogin {
+            val res = prepare { apiService.deleteFeed(feed.itemId ?: 0L) }
+            flow.value = (res.isSuccess && res.getOrNull()?.result == true)
+        }
+        return flow
     }
 
     suspend fun notify(feed: Feed) {

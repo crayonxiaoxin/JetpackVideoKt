@@ -88,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_2"
-                    android:onClick="@{()->InteractionPresenter.toggleCommentLiked(lifeCycleOwner,comment)}"
+                    android:onClick="@{()->InteractionPresenter.toggleCommentLiked(comment)}"
                     android:src="@{comment.ugc.hasLiked?@drawable/icon_cell_liked:@drawable/icon_cell_like}"
                     tools:src="@drawable/icon_cell_liked">
 

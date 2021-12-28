@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dimen_16"
             android:layout_marginRight="@dimen/dimen_16"
-            android:onClick="@{()->InteractionPresenter.toggleTagLiked(owner,tagList)}"
+            android:onClick="@{()->InteractionPresenter.toggleTagLiked(tagList)}"
             android:text="@{tagList.hasFollow?@string/tag_follow:@string/tag_unfollow}"
             android:textColor="@color/color_theme"
             android:textSize="13sp"

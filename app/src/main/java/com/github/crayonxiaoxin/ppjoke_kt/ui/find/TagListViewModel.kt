@@ -24,7 +24,7 @@ class TagListViewModel : AbsViewModel<TagList>() {
     }
 
     fun toggleTagFollow(tagList: TagList) {
-        InteractionPresenter.toggleTagLiked(null,tagList)
+        InteractionPresenter.toggleTagLiked(tagList)
     }
 
     private val switchTab: MutableStateFlow<Int> = MutableStateFlow(-1)

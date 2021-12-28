@@ -4,7 +4,8 @@ import java.util.*
 
 object TimeUtils {
     @JvmStatic
-    fun calculate(time: Long): String {
+    fun calculate(time: Long?): String {
+        if (time == null) return "刚刚"
         val timeInMillis = Calendar.getInstance().timeInMillis
         val diffSecond = (timeInMillis - time) / 1000
         return when {
