@@ -32,6 +32,14 @@ interface ApiService {
         @Query("pageCount") pageCount: Int = 10
     ): Base<List<Feed>>
 
+    @GET("feeds/queryUserBehaviorList")
+    suspend fun queryUserBehaviorList(
+        @Query("feedId") feedId: Int,
+        @Query("behavior") behavior: Int,
+        @Query("userId") userId: String = UserManager.userId(),
+        @Query("pageCount") pageCount: Int = 10
+    ): Base<List<Feed>>
+
     @GET("ugc/toggleFeedLike")
     suspend fun toggleFeedLike(
         @Query("itemId") itemId: Long,

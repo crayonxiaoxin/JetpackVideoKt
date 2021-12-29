@@ -1,4 +1,4 @@
-package com.github.crayonxiaoxin.ppjoke_kt.ui.home
+package com.github.crayonxiaoxin.ppjoke_kt.ui.my
 
 import android.os.Bundle
 import android.util.Log
@@ -13,29 +13,29 @@ import com.github.crayonxiaoxin.ppjoke_kt.base.AbsListFragment
 import com.github.crayonxiaoxin.ppjoke_kt.exoplayer.PageListPlayDetector
 import com.github.crayonxiaoxin.ppjoke_kt.exoplayer.PageListPlayManager
 import com.github.crayonxiaoxin.ppjoke_kt.ui.InteractionPresenter
+import com.github.crayonxiaoxin.ppjoke_kt.ui.home.FeedAdapter
 import kotlinx.coroutines.launch
 
-@FragmentDestination("main/tabs/home", asStarter = true)
-class HomeFragment : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
+class UserBehaviorFragment : AbsListFragment<Feed, UserBehaviorViewModel, FeedAdapter>() {
     private var playDetector: PageListPlayDetector? = null
     private var shouldPause: Boolean = true
 
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: UserBehaviorViewModel by viewModels()
 
     companion object {
-        val KEY_FEED_TYPE = "key_feed_type"
-        fun newInstance(feedType: String): HomeFragment {
+        val KEY_BEHAVIOR_TYPE = "key_behavior_type"
+        fun newInstance(behavior: Int): UserBehaviorFragment {
             val args = Bundle()
-            args.putString(KEY_FEED_TYPE, feedType)
-            val fragment = HomeFragment()
+            args.putInt(KEY_BEHAVIOR_TYPE, behavior)
+            val fragment = UserBehaviorFragment()
             fragment.arguments = args
             return fragment
         }
     }
 
     override fun initAdapter(): FeedAdapter {
-        viewModel.feedType = arguments?.getString(KEY_FEED_TYPE) ?: "all"
-        return object : FeedAdapter(requireContext(), viewModel.feedType) {
+        viewModel.behavior = arguments?.getInt(KEY_BEHAVIOR_TYPE) ?: 0
+        return object : FeedAdapter(requireContext(), "behavior${viewModel.behavior}") {
             override fun onViewAttachedToWindow(holder: ViewHolder) {
                 super.onViewAttachedToWindow(holder)
                 if (holder.isVideoItem) {
@@ -98,7 +98,7 @@ class HomeFragment : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
 
     override fun onDestroy() {
         playDetector = null
-        PageListPlayManager.release(viewModel.feedType)
+        PageListPlayManager.release("behavior${viewModel.behavior}")
         super.onDestroy()
     }
 

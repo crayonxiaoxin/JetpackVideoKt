@@ -52,6 +52,7 @@
         <activity android:name=".ui.find.TagFeedListActivity" />
         <activity android:name=".ui.detail.FeedDetailActivity" />
         <activity android:name=".ui.my.ProfileActivity" />
+        <activity android:name=".ui.my.UserBehaviorActivity" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:exported="true"

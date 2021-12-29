@@ -34,30 +34,12 @@ class MyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.goDetail.setOnClickListener {
-            context?.startActivity(
-                ProfileActivity.intentStartActivity(
-                    requireContext(),
-                    ProfileActivity.TAB_TYPE_ALL
-                )
-            )
-        }
-        binding.userFeed.setOnClickListener {
-            context?.startActivity(
-                ProfileActivity.intentStartActivity(
-                    requireContext(),
-                    ProfileActivity.TAB_TYPE_FEED
-                )
-            )
-        }
-        binding.userComment.setOnClickListener {
-            context?.startActivity(
-                ProfileActivity.intentStartActivity(
-                    requireContext(),
-                    ProfileActivity.TAB_TYPE_COMMENT
-                )
-            )
-        }
+        binding.goDetail.setOnClickListener { toProfileActivity(ProfileActivity.TAB_TYPE_ALL) }
+        binding.cardOverlap.setOnClickListener { toProfileActivity(ProfileActivity.TAB_TYPE_ALL) }
+        binding.userFeed.setOnClickListener { toProfileActivity(ProfileActivity.TAB_TYPE_FEED) }
+        binding.userComment.setOnClickListener { toProfileActivity(ProfileActivity.TAB_TYPE_COMMENT) }
+        binding.userFavorite.setOnClickListener { toBehaviorActivity(UserBehaviorActivity.BEHAVIOR_FAVORITE) }
+        binding.userHistory.setOnClickListener { toBehaviorActivity(UserBehaviorActivity.BEHAVIOR_HISTORY) }
         lifecycleScope.launch {
             binding.user = UserManager.get()
             UserManager.refresh().collectLatest {
@@ -76,6 +58,22 @@ class MyFragment : Fragment() {
                     dialog.dismiss()
                 }
                 .create().show()
+        }
+    }
+
+    private fun toProfileActivity(type: String) {
+        context?.let {
+            it.startActivity(
+                ProfileActivity.intentStartActivity(it, ProfileActivity.TAB_TYPE_ALL)
+            )
+        }
+    }
+
+    private fun toBehaviorActivity(behavior: Int) {
+        context?.let {
+            it.startActivity(
+                UserBehaviorActivity.intentStartActivity(it, behavior)
+            )
         }
     }
 

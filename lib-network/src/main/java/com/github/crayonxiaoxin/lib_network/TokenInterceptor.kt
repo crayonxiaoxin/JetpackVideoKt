@@ -3,6 +3,7 @@ package com.github.crayonxiaoxin.lib_network
 import okhttp3.Interceptor
 import okhttp3.Protocol
 import okhttp3.Response
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.internal.http2.ConnectionShutdownException
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -36,6 +37,7 @@ abstract class TokenInterceptor : Interceptor {
                 .protocol(Protocol.HTTP_1_1)
                 .code(999)
                 .message(msg)
+                .body("".toResponseBody(null))
                 .build()
         }
     }
