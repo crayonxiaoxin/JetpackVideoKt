@@ -1,14 +1,15 @@
 package com.github.crayonxiaoxin.ppjoke_kt.ui.my
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.crayonxiaoxin.lib_common.extension.FlowBus
 import com.github.crayonxiaoxin.ppjoke_kt.base.AbsListFragment
 import com.github.crayonxiaoxin.ppjoke_kt.exoplayer.PageListPlayDetector
+import com.github.crayonxiaoxin.ppjoke_kt.exoplayer.PageListPlayManager
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 import com.github.crayonxiaoxin.ppjoke_kt.ui.InteractionPresenter
-import com.github.crayonxiaoxin.ppjoke_kt.ui.home.HomeViewModel
 import kotlinx.coroutines.launch
 
 class ProfileListFragment : AbsListFragment<Feed, ProfileViewModel, ProfileListAdapter>() {
@@ -23,15 +24,13 @@ class ProfileListFragment : AbsListFragment<Feed, ProfileViewModel, ProfileListA
     }
 
     override val viewModel: ProfileViewModel by viewModels()
-    private var mCategory: String? = ""
     private var playDetector: PageListPlayDetector? = null
     private var shouldPause: Boolean = true
 
     override fun initAdapter(): ProfileListAdapter {
-        mCategory = arguments?.getString(ProfileActivity.KEY_TAB_TYPE)
-        viewModel.profileType = mCategory ?: ""
+        viewModel.profileType = arguments?.getString(ProfileActivity.KEY_TAB_TYPE) ?: ""
 
-        return object : ProfileListAdapter(requireContext(), mCategory ?: "") {
+        return object : ProfileListAdapter(requireContext(), viewModel.profileType) {
             override fun onViewAttachedToWindow(holder: ViewHolder) {
                 super.onViewAttachedToWindow(holder)
                 if (holder.isVideoItem) {
@@ -65,18 +64,18 @@ class ProfileListFragment : AbsListFragment<Feed, ProfileViewModel, ProfileListA
         super.onResume()
         shouldPause = true
         // 防止从后台切换时，多个 fragment 同时播放
-        if (viewModel.profileType != ProfileActivity.TAB_TYPE_COMMENT) {
-            playDetector?.onResume()
-        } else {
+        if (viewModel.profileType == ProfileActivity.TAB_TYPE_COMMENT) {
             playDetector?.onPause()
+        } else {
+            playDetector?.onResume()
         }
     }
 
     override fun onPause() {
+        super.onPause()
         if (shouldPause) {
             playDetector?.onPause()
         }
-        super.onPause()
     }
 
     // 从其他页面切回来时
@@ -88,8 +87,9 @@ class ProfileListFragment : AbsListFragment<Feed, ProfileViewModel, ProfileListA
         }
     }
 
-    override fun onDestroy() {
-        playDetector = null
-        super.onDestroy()
+    override fun onDestroyView() {
+        Log.e("TAG", "onDestroyView: ${viewModel.profileType}")
+        PageListPlayManager.release(viewModel.profileType)
+        super.onDestroyView()
     }
 }

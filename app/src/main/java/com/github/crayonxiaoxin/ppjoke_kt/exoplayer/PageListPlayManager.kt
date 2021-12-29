@@ -56,6 +56,7 @@ object PageListPlayManager {
     fun release(pageName: String) {
         hashMap[pageName]?.let {
             hashMap.remove(pageName)
+            it.release() // 必须释放，否则 OOM
         }
     }
 }

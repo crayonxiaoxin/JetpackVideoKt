@@ -122,7 +122,6 @@ open class SofaFragment : Fragment() {
         return HomeFragment.newInstance(tabs[position].tag)
     }
 
-
     override fun onDestroyView() {
         viewPager.unregisterOnPageChangeCallback(pageChangeCallback)
         tabLayoutMediator?.detach()

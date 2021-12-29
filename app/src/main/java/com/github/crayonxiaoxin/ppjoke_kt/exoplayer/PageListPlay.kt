@@ -7,11 +7,11 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlayerControlView
 import com.google.android.exoplayer2.ui.PlayerView
 
-open class PageListPlay() {
-    open var exoPlayer: ExoPlayer? = null
-    open var playerView: PlayerView? = null
-    open var controllerView: PlayerControlView? = null
-    open var playUrl:String = ""
+class PageListPlay() {
+    var exoPlayer: ExoPlayer? = null
+    var playerView: PlayerView? = null
+    var controllerView: PlayerControlView? = null
+    var playUrl: String = ""
 
     init {
         val application = AppGlobals.application
@@ -24,7 +24,6 @@ open class PageListPlay() {
             null,
             false
         ) as PlayerControlView?
-
         playerView?.player = exoPlayer
         controllerView?.player = exoPlayer
     }

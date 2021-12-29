@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListen
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 设回本身的主题，否则 splash 会一直保留
+        setTheme(R.style.Theme_Ppjoke_kt)
         StatusBar.fitSystemBar(this, darkIcons = true)
         super.onCreate(savedInstanceState)
 

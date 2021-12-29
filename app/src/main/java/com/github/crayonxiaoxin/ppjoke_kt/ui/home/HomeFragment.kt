@@ -11,6 +11,7 @@ import com.github.crayonxiaoxin.lib_nav_annotation.FragmentDestination
 import com.github.crayonxiaoxin.ppjoke_kt.model.Feed
 import com.github.crayonxiaoxin.ppjoke_kt.base.AbsListFragment
 import com.github.crayonxiaoxin.ppjoke_kt.exoplayer.PageListPlayDetector
+import com.github.crayonxiaoxin.ppjoke_kt.exoplayer.PageListPlayManager
 import com.github.crayonxiaoxin.ppjoke_kt.ui.InteractionPresenter
 import kotlinx.coroutines.launch
 
@@ -97,6 +98,7 @@ class HomeFragment() : AbsListFragment<Feed, HomeViewModel, FeedAdapter>() {
 
     override fun onDestroy() {
         playDetector = null
+        PageListPlayManager.release(viewModel.feedType)
         super.onDestroy()
     }
 

@@ -42,6 +42,22 @@ class MyFragment : Fragment() {
                 )
             )
         }
+        binding.userFeed.setOnClickListener {
+            context?.startActivity(
+                ProfileActivity.intentStartActivity(
+                    requireContext(),
+                    ProfileActivity.TAB_TYPE_FEED
+                )
+            )
+        }
+        binding.userComment.setOnClickListener {
+            context?.startActivity(
+                ProfileActivity.intentStartActivity(
+                    requireContext(),
+                    ProfileActivity.TAB_TYPE_COMMENT
+                )
+            )
+        }
         lifecycleScope.launch {
             binding.user = UserManager.get()
             UserManager.refresh().collectLatest {

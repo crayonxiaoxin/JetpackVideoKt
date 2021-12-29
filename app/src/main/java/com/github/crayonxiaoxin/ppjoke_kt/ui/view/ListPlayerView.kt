@@ -166,14 +166,16 @@ open class ListPlayerView : FrameLayout, IPlayTarget, Player.Listener,
     }
 
     override fun inActive() {
+        Log.e("TAG", "inActive: 111" )
         val pageListPlay = PageListPlayManager.get(mCategory)
         val exoPlayer = pageListPlay.exoPlayer
         val controllerView = pageListPlay.controllerView
-        if (controllerView == null || exoPlayer == null) return
-        exoPlayer.repeatMode = Player.REPEAT_MODE_OFF  // 一定要关闭，否则导致 OOM
-        exoPlayer.playWhenReady = false
-        exoPlayer.removeListener(this)   // 不移除的话，当一个item player状态改变时，所有item的状态都会改变
-        controllerView.removeVisibilityListener(this) // 不移除的话，当controller出现时，所有item的play都会出现
+        if (exoPlayer != null) {
+            exoPlayer.repeatMode = Player.REPEAT_MODE_OFF  // 一定要关闭，否则导致 OOM
+            exoPlayer.playWhenReady = false
+            exoPlayer.removeListener(this)   // 不移除的话，当一个item player状态改变时，所有item的状态都会改变
+        }
+        controllerView?.removeVisibilityListener(this) // 不移除的话，当controller出现时，所有item的play都会出现
         coverView.visibility = VISIBLE
         playBtn.visibility = VISIBLE
         playBtn.setImageResource(R.drawable.icon_video_play)
@@ -188,6 +190,15 @@ open class ListPlayerView : FrameLayout, IPlayTarget, Player.Listener,
         val pageListPlay = PageListPlayManager.get(mCategory)
         pageListPlay.controllerView?.show()
         return true
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        isPlaying = false
+        bufferView.visibility = View.GONE
+        coverView.visibility = View.GONE
+        playBtn.visibility = View.VISIBLE
+        playBtn.setImageResource(R.drawable.icon_video_play)
     }
 
     override fun onVisibilityChange(visibility: Int) {
