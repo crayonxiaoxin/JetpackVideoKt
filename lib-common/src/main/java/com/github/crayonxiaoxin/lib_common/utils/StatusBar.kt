@@ -26,7 +26,16 @@ object StatusBar {
         val window = activity.window
         val decorView = window.decorView
         // false 状态栏覆盖在 window 之上，true 不会覆盖
-        WindowCompat.setDecorFitsSystemWindows(window, decorFitsSystemWindows)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            WindowCompat.setDecorFitsSystemWindows(window, decorFitsSystemWindows)
+        } else {
+            val decorFitsFlags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+            val sysUiVis = decorView.systemUiVisibility
+            decorView.systemUiVisibility =
+                if (decorFitsSystemWindows) sysUiVis and decorFitsFlags.inv() else sysUiVis or decorFitsFlags
+        }
         // 绘制 状态栏颜色
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = Color.TRANSPARENT
