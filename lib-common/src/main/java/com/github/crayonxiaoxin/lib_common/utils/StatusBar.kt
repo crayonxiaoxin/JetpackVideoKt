@@ -3,6 +3,7 @@ package com.github.crayonxiaoxin.lib_common.utils
 import android.app.Activity
 import android.graphics.Color
 import android.os.Build
+import android.view.View
 import android.view.WindowManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -30,15 +31,24 @@ object StatusBar {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = Color.TRANSPARENT
         // 设置 状态栏文字图标 颜色
-        ViewCompat.getWindowInsetsController(decorView)?.let { insetController ->
-            insetController.isAppearanceLightStatusBars = darkIcons
-            // 设置 是否全屏
-            if (fullscreen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                val attributes = window.attributes
-                attributes.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-                window.attributes = attributes
+        val windowInsetsController = ViewCompat.getWindowInsetsController(decorView)
+        if (windowInsetsController != null) {
+            windowInsetsController.isAppearanceLightStatusBars = darkIcons
+        } else {
+            var visibility = decorView.systemUiVisibility
+            visibility = if (darkIcons) {
+                visibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            } else {
+                visibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
             }
+            decorView.systemUiVisibility = visibility
+        }
+        // 设置 是否全屏
+        if (fullscreen && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val attributes = window.attributes
+            attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            window.attributes = attributes
         }
     }
 }
